@@ -1,0 +1,36 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="consentua-component">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+  </template>
+
+  <script>
+    /**
+     * `consentua-component`
+     * consentua component
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class ConsentuaComponent extends Polymer.Element {
+      static get is() { return 'consentua-component'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'consentua-component'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(ConsentuaComponent.is, ConsentuaComponent);
+  </script>
+</dom-module>

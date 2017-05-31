@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>consentua-component test</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../consentua-component.html">
+  </head>
+  <body>
+
+    <test-fixture id="BasicTestFixture">
+      <template>
+        <consentua-component></consentua-component>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="ChangedPropertyTestFixture">
+      <template>
+        <consentua-component prop1="new-prop1"></consentua-component>
+      </template>
+    </test-fixture>
+
+    <script>
+      suite('consentua-component', function() {
+
+        test('instantiating the element with default properties works', function() {
+          var element = fixture('BasicTestFixture');
+          assert.equal(element.prop1, 'consentua-component');
+          var elementShadowRoot = element.shadowRoot;
+          var elementHeader = elementShadowRoot.querySelector('h2');
+          assert.equal(elementHeader.innerHTML, 'Hello consentua-component!');
+        });
+
+        test('setting a property on the element works', function() {
+          // Create a test fixture
+          var element = fixture('ChangedPropertyTestFixture');
+          assert.equal(element.prop1, 'new-prop1');
+          var elementShadowRoot = element.shadowRoot;
+          var elementHeader = elementShadowRoot.querySelector('h2');
+          assert.equal(elementHeader.innerHTML, 'Hello new-prop1!');
+        });
+
+      });
+    </script>
+
+  </body>
+</html>
