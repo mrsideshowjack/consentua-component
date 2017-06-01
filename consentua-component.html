@@ -1,4 +1,6 @@
 <link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../iron-list/iron-list.html">
 
 <dom-module id="consentua-component">
   <template>
@@ -7,7 +9,16 @@
         display: block;
       }
     </style>
-    <h2>Hello [[prop1]]!</h2>
+    <div>
+      <h1>I consent to getting marketing notifications</h1>
+      <p>You consent to recieving marketing and survey requests from this service.</p>
+      <span>
+      <p>Allow all purposes</p>
+      <paper-toggle-button checked></paper-toggle-button>
+      </span>
+
+
+    </div>
   </template>
 
   <script>
