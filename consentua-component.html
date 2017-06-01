@@ -1,49 +1,134 @@
-<link rel="import" href="../polymer/polymer-element.html">
-<link rel="import" href="../paper-toggle-button/paper-toggle-button.html">
-<link rel="import" href="../paper-button/paper-button.html">
-<link rel="import" href="../iron-pages/iron-pages.html">
-<link rel="import" href="../iron-ajax/iron-ajax.html">
-<link rel="import" href="../iron-list/iron-list.html">
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="bower_components/paper-button/paper-button.html">
+<link rel="import" href="bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="bower_components/iron-list/iron-list.html">
+<link rel="import" href="linear-pageindicator.html">
+
 
 <dom-module id="consentua-component">
   <template>
     <style>
       :host {
+        --consentua-main:#9A1144;
+        --green-l:#4CAF50;
+        --green-d:#265728;
+        --primary-color:var(--green-l);
         width: 100%;
         height: 100%;
         display: block;
+        background-color: #d6d6d6;
+        padding: 1em 0em;
+      }
+      paper-button{
+        background-color: var(--green-l);
+        color: #fff;
+        text-transform: capitalize;
+        min-width: 22%;
+      }
+      paper-button[disabled]{
+        background-color: var(--green-d);
+      }
+      .main-page{
+      }
+      .main-page article{
+        padding: 1em;
+        margin: 0em 1em;
+        background: #fff;
+        border-radius: 5px;
+      }
+      #pageControls{
+        margin-top: 2em;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+      #binaryAllContain{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      #binaryAllContain paper-toggle-button{
+        align-self: flex-end;
+      }
+      iron-list{
+        max-height: 500px;
+        overflow-y: auto;
+      }
+      .item{
+        display: flex;
+        border-bottom: 2px solid grey;
+      }
+      /*.tgl-binary, .tgl-binary-all{
+        float: right;
+      }*/
+      #branding{
+        margin-top: 1em;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        font-size: 0.9em;
+      }
+      #branding img{
+        background-color: var(--consentua-main);
+        padding: 7px;
+        max-height: 20px;
+        margin: 0px 5px;
       }
     </style>
-
-      <iron-pages selected="0" id="pageMain">
+      <iron-ajax
+         auto
+         url="template.json"
+         handle-as="json"
+         last-response="{{data}}"></iron-ajax>
+      <iron-pages attr-for-selected="pageNo" selected="{{selectedMainPage}}" id="pageMain">
         <!-- Binary Consent -->
-        <div>
-          <h1>I consent to getting marketing notifications</h1>
+        <div class="main-page" pageNo="1">
+          <article>
+          <h2>I consent to getting marketing notifications</h2>
           <p>You consent to recieving marketing and survey requests from this service.</p>
-          <span>
+          <span id="binaryAllContain">
           <p>Allow all purposes</p>
-          <paper-toggle-button checked></paper-toggle-button>
-          <iron-list items="[[data]]" as="item">
+          <paper-toggle-button class="tgl-binary-all" checked></paper-toggle-button>
+          </span>
+          <iron-list items="[[binaryPurposes]]" as="item">
             <template>
               <div>
-                Name: [[item.name]]
+                <article>
+                <h3>We will use</h3>
+                [[item.DataUse]]
+                <h3>For the purposes of</h3>
+                [[item.DataPurpose]]
+                </article>
+                <paper-toggle-button class="tgl-binary" checked></paper-toggle-button>
               </div>
             </template>
           </iron-list>
-          </span>
+          </article>
         </div>
         <!-- Linear Consent -->
-        <div>
-        <!-- page indicator and nav -->
-          <iron-pages selected="0" id="pageLinear">
+        <div class="main-page" pageNo="2">
+          <linear-pageindicator selected="{{selectedLinearPage}}"></linear-pageindicator>
+          <article>
+
+          <iron-pages selected="[[selectedLinearPage]]" id="pageLinear">
             <div>One</div>
             <div>Two</div>
             <div>Three</div>
           </iron-pages>
+          </article>
         </div>
       </iron-pages>
-      <paper-button disabled id="btnPrev" raised on-tap="_pageBinary">Previous</paper-button>
-      <paper-button id="btnNext" raised on-tap="_pageLinear">Next</paper-button>
+      <div id="pageControls">
+        <paper-button disabled id="btnPrev" raised on-tap="_pageBinary">Previous</paper-button>
+        <span>[[selectedMainPage]]/2</span>
+        <paper-button id="btnNext" raised on-tap="_pageLinear">Next</paper-button>
+      </div>
+      <span id="branding">
+        Service provided by
+        <img src="../img/consentua-logo-white.svg">
+      </span>
   </template>
 
   <script>
@@ -59,22 +144,44 @@
       static get is() { return 'consentua-component'; }
       static get properties() {
         return {
-          prop1: {
-            type: String,
-            value: 'consentua-component'
+          data: {
+            type: Object,
+            notify: true
+          },
+          binaryPurposes:{
+            type: Array,
+            notify: true,
+            computed: '_returnBinaryPurposes(data)'
+          },
+          selectedMainPage:{
+            type: Number,
+            value: 1
+          },
+          selectedLinearPage:{
+            type: Number,
+            value: 0
           }
         };
       }
-
-      _pageBinary(){
-        this.$.pageMain.selected = 0;
-        this.$.btn.btnPrev.disabled = true;
-        this.$.btn.btnNext.disabled = false;
+      _returnBinaryPurposes(data){
+        return data.Templates[0].PurposeGroups[0].Purposes;
       }
-      _pageLinear(){
-        this.$.pageMain.selected = 1;
-        this.$.btn.btnPrev.disabled = false;
-        this.$.btn.btnNext.disabled = true;
+      _pageBinary(e, selectedMainPage){
+        this.selectedMainPage = 1;
+        this._isDisabled(e.target);
+      }
+      _pageLinear(e, selectedMainPage){
+        this.selectedMainPage = 2;
+        this._isDisabled(e.target);
+      }
+      _isDisabled(e, selectedMainPage){
+        if (!e.disabled) {
+          this.$.btnPrev.disabled = false;
+          this.$.btnNext.disabled = false;
+          e.disabled = true;
+        } else{
+          console.log("how did you click this?");
+        }
       }
     }
 
