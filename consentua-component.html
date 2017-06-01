@@ -1,24 +1,49 @@
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../iron-pages/iron-pages.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../iron-list/iron-list.html">
 
 <dom-module id="consentua-component">
   <template>
     <style>
       :host {
+        width: 100%;
+        height: 100%;
         display: block;
       }
     </style>
-    <div>
-      <h1>I consent to getting marketing notifications</h1>
-      <p>You consent to recieving marketing and survey requests from this service.</p>
-      <span>
-      <p>Allow all purposes</p>
-      <paper-toggle-button checked></paper-toggle-button>
-      </span>
 
-
-    </div>
+      <iron-pages selected="0" id="pageMain">
+        <!-- Binary Consent -->
+        <div>
+          <h1>I consent to getting marketing notifications</h1>
+          <p>You consent to recieving marketing and survey requests from this service.</p>
+          <span>
+          <p>Allow all purposes</p>
+          <paper-toggle-button checked></paper-toggle-button>
+          <iron-list items="[[data]]" as="item">
+            <template>
+              <div>
+                Name: [[item.name]]
+              </div>
+            </template>
+          </iron-list>
+          </span>
+        </div>
+        <!-- Linear Consent -->
+        <div>
+        <!-- page indicator and nav -->
+          <iron-pages selected="0" id="pageLinear">
+            <div>One</div>
+            <div>Two</div>
+            <div>Three</div>
+          </iron-pages>
+        </div>
+      </iron-pages>
+      <paper-button disabled id="btnPrev" raised on-tap="_pageBinary">Previous</paper-button>
+      <paper-button id="btnNext" raised on-tap="_pageLinear">Next</paper-button>
   </template>
 
   <script>
@@ -39,6 +64,17 @@
             value: 'consentua-component'
           }
         };
+      }
+
+      _pageBinary(){
+        this.$.pageMain.selected = 0;
+        this.$.btn.btnPrev.disabled = true;
+        this.$.btn.btnNext.disabled = false;
+      }
+      _pageLinear(){
+        this.$.pageMain.selected = 1;
+        this.$.btn.btnPrev.disabled = false;
+        this.$.btn.btnNext.disabled = true;
       }
     }
 
