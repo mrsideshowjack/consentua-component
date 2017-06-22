@@ -6,7 +6,10 @@
 <link rel="import" href="../iron-pages/iron-pages.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../iron-list/iron-list.html">
-
+<link rel="import" href="../iron-icon/iron-icon.html">
+<script src="../cryptojslib/rollups/md5.js"></script>
+<script src="../cryptojslib/components/enc-base64-min.js"></script>
+<link rel="import" href="consentua-icons.html">
 
 <dom-module id="consentua-component">
   <template>
@@ -138,6 +141,8 @@
         border-bottom: 2px solid #eee;
       }
       .linear-page .btn-setting{
+        --iron-icon-height: 32px;
+        --iron-icon-width: 32px;
         align-self: flex-start;
         width: 55%;
         margin: 1em 0px;
@@ -158,13 +163,14 @@
     </style>
       <iron-ajax
          auto
-         url="demo/template.json"
+         url="template.json"
          handle-as="json"
          last-response="{{data}}"></iron-ajax>
-      <iron-pages attr-for-selected="pageNo" selected="{{selectedMainPage}}" id="pageMain">
+      <iron-pages attr-for-selected="pageNo" selected="{{selectedMainPage}}" id="pageMain" fallback-selection="1">
         <!-- Binary Consent -->
         <div class="main-page" pageNo="1">
           <article>
+          <h1>token: [[formatedToken]]</h1>
           <h2>[[binaryTemplate.Question]]</h2>
           <p>[[binaryTemplate.Explanation]]</p>
           <span id="binaryAllContain">
@@ -198,7 +204,7 @@
           <article>
           <h2>[[linearTemplate.Question]]</h2>
           <p>[[linearTemplate.Explanation]]</p>
-          <iron-pages selected="[[selectedLinearPage]]" id="pageLinear">
+          <iron-pages selected="[[selectedLinearPage]]" id="pageLinear" fallback-selection="0">
             <template is="dom-repeat" items="{{linearPurposes}}">
               <div>
               <h3>We will use</h3>
@@ -209,7 +215,8 @@
               </div>
             </template>
           </iron-pages>
-          <paper-button class="btn-setting" raised>Use this setting</paper-button>
+          <!-- <paper-button class="btn-setting" raised>Use this setting</paper-button> -->
+          <paper-button class="btn-setting" raised>Current setting <iron-icon icon="consentua-icons:check"></iron-icon></paper-button>
           </article>
         </div>
       </iron-pages>
@@ -237,6 +244,27 @@
       static get is() { return 'consentua-component'; }
       static get properties() {
         return {
+          token:{
+            type: String,
+            notify: true
+          },
+          formatedToken:{
+            type: String,
+            notify: true,
+            computed: '_formatToken(token)'
+          },
+          clientId:{
+            type: String,
+            notify: true
+          },
+          serviceId:{
+            type: String,
+            notify: true
+          },
+          userId:{
+            type: String,
+            notify: true
+          },
           data: {
             type: Object,
             notify: true
@@ -263,6 +291,7 @@
           },
           selectedMainPage:{
             type: Number,
+            notify: true,
             value: 1
           },
           selectedLinearPage:{
@@ -271,6 +300,15 @@
             value: 0
           }
         };
+      }
+      _formatToken(token){
+       //get date and it to the token, then hash
+       var date = new Date().getDate();
+       var month = new Date().getMonth() +1; //add 1 to month, as it starts from 0, not 1
+       var year = new Date().getFullYear();
+       var fullDate = "_" + date + "_" + month + "_" + year;
+       var hash = CryptoJS.MD5(token + fullDate).toString();
+       return hash;
       }
       _returnBinaryPurposes(data){
         return data.Templates[0].PurposeGroups[0].Purposes;
