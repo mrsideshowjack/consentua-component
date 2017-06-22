@@ -11,18 +11,31 @@
 <script src="../cryptojslib/components/enc-base64-min.js"></script>
 <link rel="import" href="consentua-icons.html">
 
+<!--
+`paper-weather` material design weather element inspired by google weather
+ Weather data: <a href="https://developer.yahoo.com/weather/">Yahoo Weather API</a> <br>
+ Weather icons: <a href="https://material.uplabs.com/posts/google-now-weather-icons-freebie">Naman Rastogi</a>
+ ### Styling
+ Custom property | Description | Default
+ ----------------|-------------|----------
+ `--main-background-color` | The main background colour | `#e1e1e1`
+
+@demo demo/index.html
+-->
+
 <dom-module id="consentua-component">
   <template>
     <style>
       :host {
         --consentua-main:#9A1144;
+        --main-background-color: #e1e1e1;
         --green-l:#4CAF50;
         --green-d:#265728;
         --primary-color:var(--green-l);
         width: 100%;
         height: 100%;
         display: block;
-        background-color: #e1e1e1;
+        background-color: var(--main-background-color);
         padding: 1em 0em;
       }
       paper-button{
@@ -133,19 +146,20 @@
       .linear-page > article{
         display:flex;
         flex-direction:column;
-        flex: 1;
       }
       #pageLinear{
         flex: 1;
         border-top: 2px solid #eee;
         border-bottom: 2px solid #eee;
       }
-      .linear-page .btn-setting{
-        --iron-icon-height: 32px;
-        --iron-icon-width: 32px;
+      .linear-page #linearBtnContainer{
         align-self: flex-start;
         width: 55%;
         margin: 1em 0px;
+      }
+      .linear-page #linearBtnContainer iron-icon.linear-btn-icon{
+        height: 32px;
+        width: 32px;
       }
       #branding{
         margin-top: 1em;
@@ -166,11 +180,19 @@
          url="template.json"
          handle-as="json"
          last-response="{{data}}"></iron-ajax>
+      <iron-ajax
+         auto
+         url="http://api.consentua.com/login/Service"
+         body="{{loginBody}}"
+         method="POST"
+         content-type="application/json"
+         handle-as="json"
+         on-response="_resLogin"></iron-ajax>
+
       <iron-pages attr-for-selected="pageNo" selected="{{selectedMainPage}}" id="pageMain" fallback-selection="1">
         <!-- Binary Consent -->
         <div class="main-page" pageNo="1">
           <article>
-          <h1>token: [[formatedToken]]</h1>
           <h2>[[binaryTemplate.Question]]</h2>
           <p>[[binaryTemplate.Explanation]]</p>
           <span id="binaryAllContain">
@@ -215,8 +237,18 @@
               </div>
             </template>
           </iron-pages>
-          <!-- <paper-button class="btn-setting" raised>Use this setting</paper-button> -->
-          <paper-button class="btn-setting" raised>Current setting <iron-icon icon="consentua-icons:check"></iron-icon></paper-button>
+          <div id="linearBtnContainer">
+            <dom-if if="[[!linearCurrentSetting]]">
+              <template>
+                <paper-button class="btn-setting" on-tap="_linearSelect" raised>Use this setting</paper-button>
+              </template>
+            </dom-if>
+            <dom-if if="[[linearCurrentSetting]]">
+              <template>
+                <paper-button class="btn-setting" raised>Current setting <iron-icon class="linear-btn-icon" icon="consentua-icons:check"></iron-icon></paper-button>
+              </template>
+            </dom-if>
+          </div>
           </article>
         </div>
       </iron-pages>
@@ -261,9 +293,14 @@
             type: String,
             notify: true
           },
-          userId:{
+          deviceId:{
             type: String,
             notify: true
+          },
+          loginBody:{
+            type: Object,
+            notify: true,
+            computed: '_returnLoginBody(formatedToken, clientId, serviceId, deviceId)'
           },
           data: {
             type: Object,
@@ -289,6 +326,11 @@
             notify: true,
             computed: '_returnLinearTemplate(data)'
           },
+          linearCurrentSetting:{
+            type: Boolean,
+            notify: true,
+            value: false
+          },
           selectedMainPage:{
             type: Number,
             notify: true,
@@ -301,6 +343,10 @@
           }
         };
       }
+      ready() {
+        super.ready();
+        this.addEventListener('iron-ajax-error', e => this._resErr(e));
+      }
       _formatToken(token){
        //get date and it to the token, then hash
        var date = new Date().getDate();
@@ -309,6 +355,14 @@
        var fullDate = "_" + date + "_" + month + "_" + year;
        var hash = CryptoJS.MD5(token + fullDate).toString();
        return hash;
+      }
+      _returnLoginBody(formatedToken, clientId, serviceId, deviceId){
+        return {
+          ClientId: this.clientId,
+          ServiceId: this.serviceId,
+          LoginToken: this.formatedToken,
+          DeviceId: this.deviceId //https://github.com/Valve/fingerprintjs2 
+        };
       }
       _returnBinaryPurposes(data){
         return data.Templates[0].PurposeGroups[0].Purposes;
@@ -339,14 +393,28 @@
           console.log("how did you click this?");
         }
       }
-      _pageSet1(selectedLinearPage){
-        this.selectedLinearPage = 0;
+      _resErr(fault){
+        if (typeof fault === 'object'){
+          fault = fault.detail.error.message;
+        }
+        console.error("Error with AJAX: " + fault);
       }
-      _pageSet2(selectedLinearPage){
-        this.selectedLinearPage = 1;
+      _resLogin(){
+        var res = event.detail.response;
+        if (res.Success) {
+          console.log("service logged in!");
+        } else{
+          this._resErr("Failure to login");
+        }
       }
-      _pageSet3(selectedLinearPage){
-        this.selectedLinearPage = 2;
+
+
+      _linearSelect(linearCurrentSetting){
+        if (this.linearCurrentSetting) {
+          this.linearCurrentSetting = false;
+        } else{
+          this.linearCurrentSetting = true;
+        }
       }
     }
 
