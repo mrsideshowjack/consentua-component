@@ -81,7 +81,8 @@
          url="template.json"
          handle-as="json"
          last-response="{{data}}"></iron-ajax>
-<!--       <iron-ajax
+
+     <!-- <iron-ajax
          auto
          url="http://api.consentua.com/login/Service"
          body="{{loginBody}}"
@@ -98,7 +99,6 @@
             <consentua-template template="[[item]]"></consentua-template>
           </template>
        </iron-pages>
-      
 
       <div id="pageControls">
         <paper-button id="btnPrev" raised on-tap="_prevPage">Previous</paper-button>
@@ -160,11 +160,6 @@
             notify: true,
             computed: '_isData(data)'
           },
-          linearCurrentSetting:{
-            type: Boolean,
-            notify: true,
-            value: false
-          },
           selectedMainPage:{
             type: Number,
             notify: true,
@@ -215,6 +210,23 @@
           return true;
         }
       }
+      // _formatToken(token){
+      //  //get date and it to the token, then hash
+      //  var date = new Date().getDate();
+      //  var month = new Date().getMonth() +1; //add 1 to month, as it starts from 0, not 1
+      //  var year = new Date().getFullYear();
+      //  var fullDate = "_" + date + "_" + month + "_" + year;
+      //  var hash = CryptoJS.MD5(token + fullDate).toString();
+      //  return hash;
+      // }
+      // _returnLoginBody(formatedToken, clientId, serviceId, deviceId){
+      //   return {
+      //     ClientId: this.clientId,
+      //     ServiceId: this.serviceId,
+      //     LoginToken: this.formatedToken,
+      //     DeviceId: this.deviceId //https://github.com/Valve/fingerprintjs2 
+      //   };
+      // }
       _totMainPages(data){
         return this.data.Templates.length;
       }
@@ -261,7 +273,8 @@
           console.log("service logged in!");
         } else{
           this._resErr("Failure to login");
-        }
+      }
+      
       }
     }
 
