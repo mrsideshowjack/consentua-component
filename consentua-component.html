@@ -6,20 +6,37 @@
 <link rel="import" href="../iron-pages/iron-pages.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../iron-list/iron-list.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<script src="../cryptojslib/rollups/md5.js"></script>
+<script src="../cryptojslib/components/enc-base64-min.js"></script>
+<link rel="import" href="consentua-icons.html">
+<link rel="import" href="consentua-template.html">
 
+<!--
+`paper-weather` material design weather element inspired by google weather
+ Weather data: <a href="https://developer.yahoo.com/weather/">Yahoo Weather API</a> <br>
+ Weather icons: <a href="https://material.uplabs.com/posts/google-now-weather-icons-freebie">Naman Rastogi</a>
+ ### Styling
+ Custom property | Description | Default
+ ----------------|-------------|----------
+ `--main-background-color` | The main background colour | `#e1e1e1`
+
+@demo demo/index.html
+-->
 
 <dom-module id="consentua-component">
   <template>
     <style>
       :host {
         --consentua-main:#9A1144;
+        --main-background-color: #e1e1e1;
         --green-l:#4CAF50;
         --green-d:#265728;
         --primary-color:var(--green-l);
         width: 100%;
         height: 100%;
         display: block;
-        background-color: #e1e1e1;
+        background-color: var(--main-background-color);
         padding: 1em 0em;
       }
       paper-button{
@@ -31,116 +48,11 @@
       paper-button[disabled]{
         background-color: var(--green-d);
       }
-      .main-page{
-      }
-      .main-page > article{
-            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.35);
-        height: 670px;
-        padding: 1em;
-        margin: 0em 1em;
-        background: #fff;
-        border-radius: 5px;
-      }
       #pageControls{
         margin-top: 2em;
         display: flex;
         justify-content: space-around;
         align-items: center;
-      }
-      #binaryAllContain{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      #binaryAllContain paper-toggle-button{
-        align-self: flex-end;
-        margin: 1em;
-      }
-      iron-list{
-        height: 500px;
-        overflow-y: auto;
-        border-top: 2px solid #eee;
-      }
-      iron-list .item{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 2px solid #eee;
-      }
-      iron-list .item article{
-        padding: 1em 0em;
-      }
-      iron-list .item paper-toggle-button{
-        margin: 1em;
-      }
-      /*.tgl-binary, .tgl-binary-all{
-        float: right;
-      }*/
-      .linear-page{
-        display: flex;
-      }
-      .linear-page paper-radio-group{
-        --paper-radio-group-item-padding: 0.7em auto;
-            padding: 1em 0em 1em 2em;
-      }
-      .linear-page paper-radio-button{
-        --paper-radio-button-size: 25px;
-        --paper-radio-button-unchecked-background-color: #d6d6d6;
-        --paper-radio-button-radio-container:{
-          margin: 0px auto;
-          border: 7px solid #d6d6d6;
-          border-radius: 50%;
-        };
-      }
-      .linear-page paper-radio-button[checked]:before{
-        content: '';
-        position: absolute;
-        display: block;
-        width: 0;
-        height: 0;
-        border-style: solid;
-        border-width: 10px 20px 10px 0;
-        border-color: transparent #ffffff transparent transparent;
-        margin-left: 45px;
-        margin-top: 8px;
-      }
-      .linear-page paper-radio-button:after{
-        content: '';
-        position: relative;
-        display: block;
-        background-color: #d6d6d6;
-        width: 14px;
-        height: 25px;
-        left: 27%;
-      }
-      .linear-page paper-radio-button:nth-last-of-type(1):after{
-        background-color: transparent;
-      }
-      /*.linear-page paper-radio-button:before{
-        position: relative;
-        display: block;
-        content: '';
-        width: 15px;
-        height: 15px;
-        border-radius: 50%;
-        background-color: #7e7e7e;
-        top: 25px;
-        left: 10px;
-      }*/
-      .linear-page > article{
-        display:flex;
-        flex-direction:column;
-        flex: 1;
-      }
-      #pageLinear{
-        flex: 1;
-        border-top: 2px solid #eee;
-        border-bottom: 2px solid #eee;
-      }
-      .linear-page .btn-setting{
-        align-self: flex-start;
-        width: 55%;
-        margin: 1em 0px;
       }
       #branding{
         margin-top: 1em;
@@ -155,75 +67,60 @@
         max-height: 20px;
         margin: 0px 5px;
       }
+      .no-data{
+        background-color: var(--consentua-main);
+        text-align: center;
+        color: #fff;
+        padding: 2em;
+        max-width: 40%;
+        margin: 0px auto;
+      }
     </style>
       <iron-ajax
          auto
-         url="demo/template.json"
+         url="template.json"
          handle-as="json"
          last-response="{{data}}"></iron-ajax>
-      <iron-pages attr-for-selected="pageNo" selected="{{selectedMainPage}}" id="pageMain">
-        <!-- Binary Consent -->
-        <div class="main-page" pageNo="1">
-          <article>
-          <h2>[[binaryTemplate.Question]]</h2>
-          <p>[[binaryTemplate.Explanation]]</p>
-          <span id="binaryAllContain">
-          <p>Allow all purposes</p>
-          <paper-toggle-button class="tgl-binary-all" checked></paper-toggle-button>
-          </span>
-          <iron-list items="[[binaryPurposes]]" as="item">
-            <template>
-              <div class="item">
-                <article>
-                <h3>We will use</h3>
-                [[item.DataUse]]
-                <h3>For the purposes of</h3>
-                [[item.DataPurpose]]
-                </article>
-                <paper-toggle-button class="tgl-binary" checked></paper-toggle-button>
-              </div>
-            </template>
-          </iron-list>
-          </article>
-        </div>
-        <!-- Linear Consent -->
-        <div class="main-page linear-page" pageNo="2">
-        <!-- page nav radio buttons -->
-          <paper-radio-group attr-for-selected="name" selected="{{selectedLinearPage}}">
-            <template is="dom-repeat" items="{{linearPurposes}}">
-              <paper-radio-button noink name="[[index]]"></paper-radio-button><br>
-            </template>
-          </paper-radio-group>
+<!--       <iron-ajax
+         auto
+         url="http://api.consentua.com/login/Service"
+         body="{{loginBody}}"
+         method="POST"
+         content-type="application/json"
+         handle-as="json"
+         on-response="_resLogin"></iron-ajax> -->
 
-          <article>
-          <h2>[[linearTemplate.Question]]</h2>
-          <p>[[linearTemplate.Explanation]]</p>
-          <iron-pages selected="[[selectedLinearPage]]" id="pageLinear">
-            <template is="dom-repeat" items="{{linearPurposes}}">
-              <div>
-              <h3>We will use</h3>
-              <p>[[item.DataUse]]</p>
+      <!-- there is data -->
+      <template is="dom-if" if="{{isData}}">
+      <!-- each template is a page -->
+       <iron-pages selected="{{selectedMainPage}}" id="pageMain">
+          <template is="dom-repeat" items="[[data.Templates]]">
+            <consentua-template template="[[item]]"></consentua-template>
+          </template>
+       </iron-pages>
+      
 
-              <h3>For the purposes of</h3>
-              <p>[[item.DataPurpose]]</p>
-              </div>
-            </template>
-          </iron-pages>
-          <paper-button class="btn-setting" raised>Use this setting</paper-button>
-          </article>
-        </div>
-      </iron-pages>
       <div id="pageControls">
-        <paper-button disabled id="btnPrev" raised on-tap="_pageBinary">Previous</paper-button>
-        <span>[[selectedMainPage]]/2</span>
-        <paper-button id="btnNext" raised on-tap="_pageLinear">Next</paper-button>
+        <paper-button id="btnPrev" raised on-tap="_prevPage">Previous</paper-button>
+        <span>[[selectedMainPage]]/[[_totMainPages(data)]]</span>
+        <paper-button id="btnNext" raised on-tap="_nextPage">Next</paper-button>
       </div>
       <span id="branding">
         Service provided by
         <img src="../img/consentua-logo-white.svg">
       </span>
-  </template>
+      </template>
 
+    <!-- there is no data -->
+    <template is="dom-if" if="{{!isData}}">
+      <section class="no-data">
+        <iron-icon icon="consentua-icons:mood-bad"></iron-icon>
+        <p>No consent tempaltes found</p>
+        <img src="../img/consentua-logo-white.svg">
+      </section>
+    </template>
+
+  </template>
   <script>
     /**
      * `consentua-component`
@@ -237,60 +134,111 @@
       static get is() { return 'consentua-component'; }
       static get properties() {
         return {
-          data: {
-            type: Object,
+          token:{
+            type: String,
             notify: true
           },
-          binaryPurposes:{
-            type: Array,
-            notify: true,
-            computed: '_returnBinaryPurposes(data)'
+          clientId:{
+            type: String,
+            notify: true
           },
-          linearPurposes:{
-            type: Array,
-            notify: true,
-            computed: '_returnLinearPurposes(data)'
+          serviceId:{
+            type: String,
+            notify: true
           },
-          binaryTemplate:{
+          deviceId:{
+            type: String,
+            notify: true
+          },
+          data: {
             type: Object,
             notify: true,
-            computed: '_returnBinaryTemplate(data)'
+            value: {}
           },
-          linearTemplate:{
-            type: Object,
+          isData: {
+            type: Boolean,
             notify: true,
-            computed: '_returnLinearTemplate(data)'
+            computed: '_isData(data)'
+          },
+          linearCurrentSetting:{
+            type: Boolean,
+            notify: true,
+            value: false
           },
           selectedMainPage:{
             type: Number,
-            value: 1
-          },
-          selectedLinearPage:{
-            type: Number,
             notify: true,
-            value: 0
-          }
+            value: 0,
+            computed: '_mainAdder(selectedMainPage)'
+          },
         };
       }
-      _returnBinaryPurposes(data){
-        return data.Templates[0].PurposeGroups[0].Purposes;
+      ready() {
+        super.ready();
+        this.addEventListener('iron-ajax-error', e => this._resErr(e));
       }
-      _returnLinearPurposes(data){
-        return data.Templates[1].PurposeGroups[0].Purposes;
+      // _formatToken(token){
+      //  //get date and it to the token, then hash
+      //  var date = new Date().getDate();
+      //  var month = new Date().getMonth() +1; //add 1 to month, as it starts from 0, not 1
+      //  var year = new Date().getFullYear();
+      //  var fullDate = "_" + date + "_" + month + "_" + year;
+      //  var hash = CryptoJS.MD5(token + fullDate).toString();
+      //  return hash;
+      // }
+      // _returnLoginBody(formatedToken, clientId, serviceId, deviceId){
+      //   return {
+      //     ClientId: this.clientId,
+      //     ServiceId: this.serviceId,
+      //     LoginToken: this.formatedToken,
+      //     DeviceId: this.deviceId //https://github.com/Valve/fingerprintjs2 
+      //   };
+      // }
+      _pageBinary(page){
+        if (page == 'binary' || page == 'Binary' || page == 'BINARY'){
+         return true;
+         } else{
+          return false;
+         }
       }
-      _returnBinaryTemplate(data){
-        return data.Templates[0];
+      _pageLinear(page){
+        if (page == 'linear' || page == 'Linear' || page == 'LINEAR'){
+         return true;
+         } else{
+          return false;
+         }
       }
-      _returnLinearTemplate(data){
-        return data.Templates[1];
+      _isData(data){
+        if (data == null || data == undefined || Object.keys(data).length === 0 && data.constructor === Object) {
+          return false;
+        } else{
+          return true;
+        }
       }
-      _pageBinary(e, selectedMainPage){
-        this.selectedMainPage = 1;
-        this._isDisabled(e.target);
+      _totMainPages(data){
+        return this.data.Templates.length;
       }
-      _pageLinear(e, selectedMainPage){
-        this.selectedMainPage = 2;
-        this._isDisabled(e.target);
+      _mainAdder(selectedMainPage){
+        return selectedMainPage++;
+      }
+      _prevPage(e, selectedMainPage){
+        if (this.selectedMainPage == 0) {
+          // do nothing
+        } else{
+          this.selectedMainPage--;
+        }
+        // var disabled = this.$.btnPrev.disabled;
+        // console.log("selectedMainPage", this.selectedMainPage);
+        // console.log("selectedMainPage", this.selectedMainPage);
+      }
+      _nextPage(e, selectedMainPage){
+        // var disabled = this.$.btnNext.disabled;
+        var tot = this._totMainPages();
+        if (this.selectedMainPage == tot) {
+          // do nothing
+        } else{
+          this.selectedMainPage++;
+        }
       }
       _isDisabled(e, selectedMainPage){
         if (!e.disabled) {
@@ -301,14 +249,19 @@
           console.log("how did you click this?");
         }
       }
-      _pageSet1(selectedLinearPage){
-        this.selectedLinearPage = 0;
+      _resErr(fault){
+        if (typeof fault === 'object'){
+          fault = fault.detail.error.message;
+        }
+        console.error("Error with AJAX: " + fault);
       }
-      _pageSet2(selectedLinearPage){
-        this.selectedLinearPage = 1;
-      }
-      _pageSet3(selectedLinearPage){
-        this.selectedLinearPage = 2;
+      _resLogin(){
+        var res = event.detail.response;
+        if (res.Success) {
+          console.log("service logged in!");
+        } else{
+          this._resErr("Failure to login");
+        }
       }
     }
 
