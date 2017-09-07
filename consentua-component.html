@@ -102,7 +102,7 @@
 
       <div id="pageControls">
         <paper-button id="btnPrev" raised on-tap="_prevPage">Previous</paper-button>
-        <span>[[selectedMainPage]]/[[_totMainPages(data)]]</span>
+        <span>[[_mainAdder(selectedMainPage)]]/[[_totMainPages(data)]]</span>
         <paper-button id="btnNext" raised on-tap="_nextPage">Next</paper-button>
       </div>
       <span id="branding">
@@ -163,8 +163,7 @@
           selectedMainPage:{
             type: Number,
             notify: true,
-            value: 0,
-            computed: '_mainAdder(selectedMainPage)'
+            value: 0
           },
         };
       }
@@ -228,11 +227,12 @@
       //   };
       // }
       _totMainPages(data){
-        return this.data.Templates.length;
+        console.log("this.data", this.data);
+        return this.data.Templates.length + 1;
       }
-      _mainAdder(selectedMainPage){
-        return selectedMainPage++;
-      }
+      _mainAdder(n){
+        return n + 1;
+      } 
       _prevPage(e, selectedMainPage){
         if (this.selectedMainPage == 0) {
           // do nothing
@@ -246,7 +246,7 @@
       _nextPage(e, selectedMainPage){
         // var disabled = this.$.btnNext.disabled;
         var tot = this._totMainPages();
-        if (this.selectedMainPage == tot) {
+        if (this.selectedMainPage >= tot) {
           // do nothing
         } else{
           this.selectedMainPage++;

@@ -87,20 +87,20 @@
       }
     </style>
     <section>
-      <template is="dom-repeat" items="[[purposeGroup]]">
-            <div class="main-page linear-page" pageNo="{{index}}">
+      <!-- <template is="dom-repeat" items="[[purposeGroup]]"> -->
+            <div class="main-page linear-page">
             <!-- page nav radio buttons -->
               <paper-radio-group attr-for-selected="name" selected="{{selectedLinearPage}}">
-                  <template is="dom-repeat" items="[[item.Purposes]]">
+                  <template is="dom-repeat" items="[[purposeGroup.Purposes]]">
                     <paper-radio-button noink name="[[index]]"></paper-radio-button><br>
                   </template>
               </paper-radio-group>
 
               <article>
-              <h2>[[item.Description]]</h2>
-              <p>[[item.Explanation]]</p>
+              <h2>[[purposeGroup.Description]]</h2>
+              <p>[[purposeGroup.Explanation]]</p>
               <iron-pages selected="[[selectedLinearPage]]" id="pageLinear" fallback-selection="0">
-                  <template is="dom-repeat" items="[[item.Purposes]]">
+                  <template is="dom-repeat" items="[[purposeGroup.Purposes]]">
                     <div>
                       <h3>We will use</h3>
                       <p>[[item.DataUse]]</p>
@@ -124,7 +124,7 @@
               </article>
 
             </div>
-      </template>
+      <!-- </template> -->
       
     </section>
   </template>

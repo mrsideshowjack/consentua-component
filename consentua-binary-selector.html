@@ -44,16 +44,16 @@
     </style>
     <section>
 
-    <template is="dom-repeat" items="[[purposeGroup]]">
+    <!-- <template is="dom-repeat" items="[[purposeGroup]]"> -->
        <div class="main-page binary-page">
           <article>
-            <h2>[[item.Description]]</h2>
-            <p>[[item.Explanation]]</p>
+            <h2>[[purposeGroup.Description]]</h2>
+            <p>[[purposeGroup.Explanation]]</p>
             <span class="all-toggle-container">
             <p>Allow all purposes</p>
             <paper-toggle-button class="tgl-binary-all" checked></paper-toggle-button>
             </span>
-              <iron-list items="[[item.Purposes]]" as="item">
+              <iron-list items="[[purposeGroup.Purposes]]" as="item">
                 <template>
                   <div class="item">
                     <article>
@@ -68,7 +68,7 @@
               </iron-list>
           </article>
        </div>    
-     </template>
+     <!-- </template> -->
       
     </section>
   </template>
