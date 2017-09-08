@@ -13,9 +13,7 @@
 <link rel="import" href="consentua-template.html">
 
 <!--
-`paper-weather` material design weather element inspired by google weather
- Weather data: <a href="https://developer.yahoo.com/weather/">Yahoo Weather API</a> <br>
- Weather icons: <a href="https://material.uplabs.com/posts/google-now-weather-icons-freebie">Naman Rastogi</a>
+`consentua-component` a web component to access and use <a href="consentua.com" >consentua</a>
  ### Styling
  Custom property | Description | Default
  ----------------|-------------|----------
@@ -76,20 +74,27 @@
         margin: 0px auto;
       }
     </style>
+      <!-- demo template -->
       <iron-ajax
          auto
          url="template.json"
          handle-as="json"
          last-response="{{data}}"></iron-ajax>
-
-     <!-- <iron-ajax
+     <iron-ajax
          auto
-         url="http://api.consentua.com/login/Service"
-         body="{{loginBody}}"
+         url="[[apiEndpoint]]/login/Service"
+         body="[[loginBody]]"
          method="POST"
          content-type="application/json"
          handle-as="json"
-         on-response="_resLogin"></iron-ajax> -->
+         on-response="_resLogin"></iron-ajax>
+<!--      <iron-ajax
+         id="getTemplateAjax"
+         url="[[apiEndpoint]]/template/Get"
+         params='[[_getTemplateParams()]]'
+         handle-as="json"
+         last-response="{{data}}"></iron-ajax> -->
+
 
       <!-- there is data -->
       <template is="dom-if" if="{{isData}}">
@@ -134,21 +139,49 @@
       static get is() { return 'consentua-component'; }
       static get properties() {
         return {
-          token:{
+          key:{
+            type: String,
+            readOnly: true,
+            notify: true
+          },
+          formatedToken: {
+            type: String,
+            notify: true,
+            computed: '_formatToken(key)'
+          },
+          accessToken:{
             type: String,
             notify: true
           },
           clientId:{
             type: String,
+            readOnly: true,
             notify: true
           },
           serviceId:{
             type: String,
+            readOnly: true,
             notify: true
           },
           deviceId:{
             type: String,
+            readOnly: true,
             notify: true
+          },
+          language: {
+            type: String,
+            notify: true,
+            value: 'en'
+          },
+          apiEndpoint:{
+            type: String,
+            notify: true,
+            value: 'http://api.consentua.com'
+          },
+          loginBody: {
+            type: Object,
+            notify: true,
+            computed: '_returnLoginBody(formatedToken, clientId, serviceId, deviceId)'
           },
           data: {
             type: Object,
@@ -171,23 +204,31 @@
         super.ready();
         this.addEventListener('iron-ajax-error', e => this._resErr(e));
       }
-      // _formatToken(token){
-      //  //get date and it to the token, then hash
-      //  var date = new Date().getDate();
-      //  var month = new Date().getMonth() +1; //add 1 to month, as it starts from 0, not 1
-      //  var year = new Date().getFullYear();
-      //  var fullDate = "_" + date + "_" + month + "_" + year;
-      //  var hash = CryptoJS.MD5(token + fullDate).toString();
-      //  return hash;
-      // }
-      // _returnLoginBody(formatedToken, clientId, serviceId, deviceId){
-      //   return {
-      //     ClientId: this.clientId,
-      //     ServiceId: this.serviceId,
-      //     LoginToken: this.formatedToken,
-      //     DeviceId: this.deviceId //https://github.com/Valve/fingerprintjs2 
-      //   };
-      // }
+      _formatToken(key){
+       //get date and it to the key, then hash
+       var date = new Date().getDate();
+       var month = new Date().getMonth() +1; //add 1 to month, as it starts from 0, not 1
+       var year = new Date().getFullYear();
+       var fullDate = "_" + date + "_" + month + "_" + year;
+       var hash = CryptoJS.MD5(key + fullDate).toString();
+       return hash;
+      }
+      _returnLoginBody(formatedToken, clientId, serviceId, deviceId){
+        return {
+          ClientId: this.clientId,
+          ServiceId: this.serviceId,
+          LoginToken: this.formatedToken,
+          DeviceId: this.deviceId //https://github.com/Valve/fingerprintjs2 
+        };
+      }
+      _getTemplateParams(){
+        return {
+          "clientId": this.clientId,
+          "serviceId": this.serviceId,
+          "accessToken":  this.accessToken,
+          "language":  this.language
+        };
+      }
       _pageBinary(page){
         if (page == 'binary' || page == 'Binary' || page == 'BINARY'){
          return true;
@@ -209,23 +250,6 @@
           return true;
         }
       }
-      // _formatToken(token){
-      //  //get date and it to the token, then hash
-      //  var date = new Date().getDate();
-      //  var month = new Date().getMonth() +1; //add 1 to month, as it starts from 0, not 1
-      //  var year = new Date().getFullYear();
-      //  var fullDate = "_" + date + "_" + month + "_" + year;
-      //  var hash = CryptoJS.MD5(token + fullDate).toString();
-      //  return hash;
-      // }
-      // _returnLoginBody(formatedToken, clientId, serviceId, deviceId){
-      //   return {
-      //     ClientId: this.clientId,
-      //     ServiceId: this.serviceId,
-      //     LoginToken: this.formatedToken,
-      //     DeviceId: this.deviceId //https://github.com/Valve/fingerprintjs2 
-      //   };
-      // }
       _totMainPages(data){
         console.log("this.data", this.data);
         return this.data.Templates.length + 1;
@@ -267,10 +291,13 @@
         }
         console.error("Error with AJAX: " + fault);
       }
-      _resLogin(){
+      _resLogin(event){
         var res = event.detail.response;
         if (res.Success) {
           console.log("service logged in!");
+          this.accessToken = event.detail.response.Token;
+          console.log("this.accessToken", this.accessToken);
+          this.$.getTemplateAjax.generateRequest();
         } else{
           this._resErr("Failure to login");
       }

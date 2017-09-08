@@ -1,6 +1,9 @@
 {
-  "OwnerId": 2,
-  "blah" : "blah",
+  "ClientId": 2,
+  "ServiceId": 1,
+  "Token": "06df6bfd-ac2e-41bc-9203-dfa5ec212e92",
+  "Success": true,
+  "Message": "OK",
   "Templates": [
     {
       "Id": 1,
@@ -26,7 +29,7 @@
               "Id": 1,
               "Language": "en",
               "DataUse": "Email Address",
-              "DataPurpose": "Recieve weekly newsletter",
+              "DataPurpose": "Receive weekly newsletter",
               "URI": "http://info.consentua.com/en/purpose/recieve-weekly-news",
               "Category": "Marketing",
               "ThirdPartyDisclosure": false,
@@ -37,13 +40,13 @@
               "Position": 1,
               "PurposeGroupId": 1,
               "ConsentTemplateId": 1,
-              "DataTypeId": 1
+              "DataTypeId": 0
             },
             {
               "Id": 2,
               "Language": "en",
               "DataUse": "Email Address",
-              "DataPurpose": "Recieve personal offers",
+              "DataPurpose": "Receive personal offers",
               "URI": "http://info.consentua.com/en/purpose/revieve-personal-offers",
               "Category": "Marketing",
               "ThirdPartyDisclosure": false,
@@ -54,13 +57,13 @@
               "Position": 2,
               "PurposeGroupId": 1,
               "ConsentTemplateId": 1,
-              "DataTypeId": 1
+              "DataTypeId": 0
             },
             {
               "Id": 3,
               "Language": "en",
               "DataUse": "Email Address",
-              "DataPurpose": "Recieve general offers",
+              "DataPurpose": "Receive general offers",
               "URI": "http://info.consentua.com/en/purpose/recieve-general-offers",
               "Category": "Marketing",
               "ThirdPartyDisclosure": false,
@@ -71,13 +74,13 @@
               "Position": 3,
               "PurposeGroupId": 1,
               "ConsentTemplateId": 1,
-              "DataTypeId": 1
+              "DataTypeId": 0
             },
             {
               "Id": 4,
               "Language": "en",
               "DataUse": "Email Address and Current Location",
-              "DataPurpose": "Recieve location based offers",
+              "DataPurpose": "Receive location based offers",
               "URI": "http://info.consentua.com/en/purpose/recieve-location-based-offers",
               "Category": "Marketing",
               "ThirdPartyDisclosure": false,
@@ -88,13 +91,13 @@
               "Position": 4,
               "PurposeGroupId": 1,
               "ConsentTemplateId": 1,
-              "DataTypeId": 4
+              "DataTypeId": 0
             },
             {
               "Id": 5,
               "Language": "en",
               "DataUse": "Mobile Phone Number",
-              "DataPurpose": "Recieve offers via SMS",
+              "DataPurpose": "Receive offers via SMS",
               "URI": "http://info.consentua.com/en/purpose/recieve-offers-via-sms",
               "Category": "Marketing",
               "ThirdPartyDisclosure": false,
@@ -105,13 +108,13 @@
               "Position": 5,
               "PurposeGroupId": 1,
               "ConsentTemplateId": 1,
-              "DataTypeId": 2
+              "DataTypeId": 0
             },
             {
               "Id": 6,
               "Language": "en",
               "DataUse": "Name and Address",
-              "DataPurpose": "Recieve offers via mail",
+              "DataPurpose": "Receive offers via mail",
               "URI": "http://info.consentua.com/en/purpose/recieve-offers-via-mail",
               "Category": "Marketing",
               "ThirdPartyDisclosure": false,
@@ -122,13 +125,13 @@
               "Position": 6,
               "PurposeGroupId": 1,
               "ConsentTemplateId": 1,
-              "DataTypeId": 3
+              "DataTypeId": 0
             },
             {
               "Id": 7,
               "Language": "en",
               "DataUse": "Telephone Number",
-              "DataPurpose": "Recieve phone call for feedback surveys",
+              "DataPurpose": "Receive phone call for feedback surveys",
               "URI": "http://info.consentua.com/en/purpose/recieve-phone-call-for-feedback-surveys",
               "Category": "Marketing",
               "ThirdPartyDisclosure": false,
@@ -139,37 +142,163 @@
               "Position": 7,
               "PurposeGroupId": 1,
               "ConsentTemplateId": 1,
-              "DataTypeId": 2
+              "DataTypeId": 0
             }
           ]
         }
       ]
     },
     {
-      "Id": 5,
+      "Id": 2,
       "OwnerId": 2,
       "Public": false,
-      "Name": "Test 2",
+      "Name": "Location Based Marketing ",
       "Language": "en",
-      "Question": "Mixed Grouped test consent",
-      "Explanation": "Mixed Grouped test consent",
+      "Question": "I consent to getting marketing notifications based on my location within the shopping center",
+      "Explanation": "You consent to recieving marketing and special offers from the retailers within the shopping center based on your current and/or historical location and purchasing history.",
       "ConsentType": "Explicit",
-      "DisplayType": "binary",
+      "DisplayType": "linear",
       "PurposeGroups": [
         {
-          "Id": 7,
+          "Id": 2,
           "Language": "en",
-          "Description": "Grouped mixed test group 1",
-          "Explanation": "Grouped mixed test group 1",
+          "Description": "Location",
+          "Explanation": "Location",
           "ConsentType": "Explicit",
           "DisplayType": "linear",
-          "ConsentTemplateId": 5,
+          "ConsentTemplateId": 2,
           "Purposes": [
             {
-              "Id": 28,
+              "Id": 8,
               "Language": "en",
-              "DataUse": "No Location data",
-              "DataPurpose": "For the purposes providing targeted advertisments with third parties.",
+              "DataUse": "No data will be shared",
+              "DataPurpose": "No offers will be sent",
+              "URI": "http://info.consentua.com/en/purpose/no_data",
+              "Category": "Marketing",
+              "ThirdPartyDisclosure": false,
+              "ThirdPartyName": null,
+              "IsSensative": null,
+              "SensativeCategory": null,
+              "TerminationURI": "http://info.consentua.com/termination",
+              "Position": 1,
+              "PurposeGroupId": 2,
+              "ConsentTemplateId": 2,
+              "DataTypeId": 0
+            },
+            {
+              "Id": 9,
+              "Language": "en",
+              "DataUse": "Current Location within the center",
+              "DataPurpose": "Receive useful customer information that is relevant to my location. ",
+              "URI": "http://info.consentua.com/en/purpose/revieve-general-offers",
+              "Category": "Marketing",
+              "ThirdPartyDisclosure": false,
+              "ThirdPartyName": null,
+              "IsSensative": null,
+              "SensativeCategory": null,
+              "TerminationURI": "http://info.consentua.com/termination",
+              "Position": 2,
+              "PurposeGroupId": 2,
+              "ConsentTemplateId": 2,
+              "DataTypeId": 0
+            },
+            {
+              "Id": 10,
+              "Language": "en",
+              "DataUse": "Email Address and Location within the center for the last hour",
+              "DataPurpose": "Receive general customer information and marketing offers that are relevant to my location",
+              "URI": "http://info.consentua.com/en/purpose/recieve-general-personal-offers",
+              "Category": "Marketing",
+              "ThirdPartyDisclosure": false,
+              "ThirdPartyName": null,
+              "IsSensative": null,
+              "SensativeCategory": null,
+              "TerminationURI": "http://info.consentua.com/termination",
+              "Position": 3,
+              "PurposeGroupId": 2,
+              "ConsentTemplateId": 2,
+              "DataTypeId": 0
+            },
+            {
+              "Id": 11,
+              "Language": "en",
+              "DataUse": "Email Address and Location within the center for  today ",
+              "DataPurpose": "Receive personalised offers that are relevant to today's visit",
+              "URI": "http://info.consentua.com/en/purpose/recieve-personal-offers",
+              "Category": "Marketing",
+              "ThirdPartyDisclosure": false,
+              "ThirdPartyName": null,
+              "IsSensative": null,
+              "SensativeCategory": null,
+              "TerminationURI": "http://info.consentua.com/termination",
+              "Position": 4,
+              "PurposeGroupId": 2,
+              "ConsentTemplateId": 2,
+              "DataTypeId": 0
+            },
+            {
+              "Id": 12,
+              "Language": "en",
+              "DataUse": "Name, email address, historical and current location within the center for the last week",
+              "DataPurpose": "Receive personalised and promotional offers that are relevant to my location",
+              "URI": "http://info.consentua.com/en/purpose/recieve-personal-promotional-offers",
+              "Category": "Marketing",
+              "ThirdPartyDisclosure": false,
+              "ThirdPartyName": null,
+              "IsSensative": null,
+              "SensativeCategory": null,
+              "TerminationURI": "http://info.consentua.com/termination",
+              "Position": 5,
+              "PurposeGroupId": 2,
+              "ConsentTemplateId": 2,
+              "DataTypeId": 0
+            },
+            {
+              "Id": 13,
+              "Language": "en",
+              "DataUse": "Name, Email Address; Preferences; historical purchases; historical location within the center and your purchasing history within the center",
+              "DataPurpose": "Receive personalised, promotional and loyalty based offers",
+              "URI": "http://info.consentua.com/en/purpose/recieve-loyalty-offers",
+              "Category": "Marketing",
+              "ThirdPartyDisclosure": false,
+              "ThirdPartyName": null,
+              "IsSensative": null,
+              "SensativeCategory": null,
+              "TerminationURI": "http://info.consentua.com/termination",
+              "Position": 6,
+              "PurposeGroupId": 2,
+              "ConsentTemplateId": 2,
+              "DataTypeId": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": 3,
+      "OwnerId": 2,
+      "Public": true,
+      "Name": "BlackBoxData",
+      "Language": "en",
+      "Question": "Consents to allow collection of Black Box data for insurance purposes",
+      "Explanation": "A series of consents to allow the collection of data from a vehicle black box for insurance purposes",
+      "ConsentType": "Explicit",
+      "DisplayType": "linear",
+      "PurposeGroups": [
+        {
+          "Id": 3,
+          "Language": "en",
+          "Description": "I consent to having my acceleration data collected for insurance purposes",
+          "Explanation": "Collection of insurance information",
+          "ConsentType": "Explicit",
+          "DisplayType": "linear",
+          "ConsentTemplateId": 3,
+          "Purposes": [
+            {
+              "Id": 14,
+              "Language": "en",
+              "DataUse": "Acceleration",
+              "DataPurpose": "Private",
               "URI": "http://info.consentua.com/purpose/1",
               "Category": "Marketing",
               "ThirdPartyDisclosure": false,
@@ -178,15 +307,15 @@
               "SensativeCategory": null,
               "TerminationURI": "http://info.consentua.com/termination",
               "Position": 1,
-              "PurposeGroupId": 7,
-              "ConsentTemplateId": 5,
-              "DataTypeId": 6
+              "PurposeGroupId": 3,
+              "ConsentTemplateId": 3,
+              "DataTypeId": 0
             },
             {
-              "Id": 29,
+              "Id": 15,
               "Language": "en",
-              "DataUse": "Your Historical location data ",
-              "DataPurpose": "For the purposes providing targeted advertisments with third parties.",
+              "DataUse": "Acceleration",
+              "DataPurpose": "Discoverable",
               "URI": "http://info.consentua.com/purpose/1",
               "Category": "Marketing",
               "ThirdPartyDisclosure": false,
@@ -195,15 +324,15 @@
               "SensativeCategory": null,
               "TerminationURI": "http://info.consentua.com/termination",
               "Position": 2,
-              "PurposeGroupId": 7,
-              "ConsentTemplateId": 5,
-              "DataTypeId": 6
+              "PurposeGroupId": 3,
+              "ConsentTemplateId": 3,
+              "DataTypeId": 0
             },
             {
-              "Id": 30,
+              "Id": 16,
               "Language": "en",
-              "DataUse": "Your realtime location data",
-              "DataPurpose": "For the purposes providing targeted advertisments with third parties.",
+              "DataUse": "Acceleration",
+              "DataPurpose": "Readable",
               "URI": "http://info.consentua.com/purpose/1",
               "Category": "Marketing",
               "ThirdPartyDisclosure": false,
@@ -212,178 +341,202 @@
               "SensativeCategory": null,
               "TerminationURI": "http://info.consentua.com/termination",
               "Position": 3,
-              "PurposeGroupId": 7,
-              "ConsentTemplateId": 5,
-              "DataTypeId": 6
-            },
-            {
-              "Id": 43,
-              "Language": "en",
-              "DataUse": "Historical, realtime and predicted location data ",
-              "DataPurpose": "For the purposes of Marketing",
-              "URI": "http://info.consentua.com/purpose/1",
-              "Category": "Marketing",
-              "ThirdPartyDisclosure": null,
-              "ThirdPartyName": "",
-              "IsSensative": null,
-              "SensativeCategory": null,
-              "TerminationURI": "",
-              "Position": 5,
-              "PurposeGroupId": 7,
-              "ConsentTemplateId": 5,
-              "DataTypeId": 1
+              "PurposeGroupId": 3,
+              "ConsentTemplateId": 3,
+              "DataTypeId": 0
             }
           ]
         },
         {
-          "Id": 8,
+          "Id": 4,
           "Language": "en",
-          "Description": "Grouped mixed test group 2",
-          "Explanation": "Grouped mixed test group 2",
+          "Description": "I consent to having my braking data collected for insurance purposes",
+          "Explanation": "I consent to having my braking data collected for insurance purposes",
+          "ConsentType": "Explicit",
+          "DisplayType": "Linear",
+          "ConsentTemplateId": 3,
+          "Purposes": [
+            {
+              "Id": 17,
+              "Language": "en",
+              "DataUse": "Braking",
+              "DataPurpose": "Private",
+              "URI": "http://info.consentua.com/purpose/1",
+              "Category": "Marketing",
+              "ThirdPartyDisclosure": false,
+              "ThirdPartyName": null,
+              "IsSensative": null,
+              "SensativeCategory": null,
+              "TerminationURI": "http://info.consentua.com/termination",
+              "Position": 4,
+              "PurposeGroupId": 4,
+              "ConsentTemplateId": 3,
+              "DataTypeId": 0
+            },
+            {
+              "Id": 18,
+              "Language": "en",
+              "DataUse": "Braking",
+              "DataPurpose": "Discoverable",
+              "URI": "http://info.consentua.com/purpose/1",
+              "Category": "Marketing",
+              "ThirdPartyDisclosure": false,
+              "ThirdPartyName": null,
+              "IsSensative": null,
+              "SensativeCategory": null,
+              "TerminationURI": "http://info.consentua.com/termination",
+              "Position": 5,
+              "PurposeGroupId": 4,
+              "ConsentTemplateId": 3,
+              "DataTypeId": 0
+            },
+            {
+              "Id": 19,
+              "Language": "en",
+              "DataUse": "Braking",
+              "DataPurpose": "Readable",
+              "URI": "http://info.consentua.com/purpose/1",
+              "Category": "Marketing",
+              "ThirdPartyDisclosure": false,
+              "ThirdPartyName": null,
+              "IsSensative": null,
+              "SensativeCategory": null,
+              "TerminationURI": "http://info.consentua.com/termination",
+              "Position": 6,
+              "PurposeGroupId": 4,
+              "ConsentTemplateId": 3,
+              "DataTypeId": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": 4,
+      "OwnerId": 2,
+      "Public": false,
+      "Name": "Education Consent Template",
+      "Language": "en",
+      "Question": "Pupil data to be stored requiring parent consent",
+      "Explanation": "purposes of providing education services",
+      "ConsentType": "Explicit",
+      "DisplayType": "binary",
+      "PurposeGroups": [
+        {
+          "Id": 5,
+          "Language": "en",
+          "Description": "Going on a school trip",
+          "Explanation": " Enabling a child to go on a trip",
           "ConsentType": "Explicit",
           "DisplayType": "binary",
-          "ConsentTemplateId": 5,
+          "ConsentTemplateId": 4,
           "Purposes": [
             {
-              "Id": 31,
+              "Id": 22,
               "Language": "en",
-              "DataUse": "Camera on device",
-              "DataPurpose": "Fault reporting",
+              "DataUse": "Pupil name, medical data & parent contact details",
+              "DataPurpose": "Registering for a school trip",
               "URI": "http://info.consentua.com/purpose/1",
-              "Category": "Marketing",
+              "Category": "Education",
+              "ThirdPartyDisclosure": false,
+              "ThirdPartyName": null,
+              "IsSensative": null,
+              "SensativeCategory": null,
+              "TerminationURI": "http://info.consentua.com/termination",
+              "Position": 1,
+              "PurposeGroupId": 5,
+              "ConsentTemplateId": 4,
+              "DataTypeId": 0
+            },
+            {
+              "Id": 23,
+              "Language": "en",
+              "DataUse": "Payment informaion",
+              "DataPurpose": "Paying for a school trip",
+              "URI": "http://info.consentua.com/purpose/1",
+              "Category": "Education",
+              "ThirdPartyDisclosure": false,
+              "ThirdPartyName": null,
+              "IsSensative": null,
+              "SensativeCategory": null,
+              "TerminationURI": "http://info.consentua.com/termination",
+              "Position": 2,
+              "PurposeGroupId": 5,
+              "ConsentTemplateId": 4,
+              "DataTypeId": 0
+            }
+          ]
+        },
+        {
+          "Id": 6,
+          "Language": "en",
+          "Description": "Examination information",
+          "Explanation": "sharing pupil DoB and SAT scores with external body",
+          "ConsentType": "Explicit",
+          "DisplayType": "binary",
+          "ConsentTemplateId": 4,
+          "Purposes": [
+            {
+              "Id": 24,
+              "Language": "en",
+              "DataUse": "Anonymised exam results",
+              "DataPurpose": "For school league tables",
+              "URI": "http://info.consentua.com/purpose/1",
+              "Category": "Education",
+              "ThirdPartyDisclosure": false,
+              "ThirdPartyName": null,
+              "IsSensative": null,
+              "SensativeCategory": null,
+              "TerminationURI": "http://info.consentua.com/termination",
+              "Position": 3,
+              "PurposeGroupId": 6,
+              "ConsentTemplateId": 4,
+              "DataTypeId": 0
+            },
+            {
+              "Id": 25,
+              "Language": "en",
+              "DataUse": "Exam results and scores",
+              "DataPurpose": "Share with propective employers",
+              "URI": "http://info.consentua.com/purpose/1",
+              "Category": "Education",
               "ThirdPartyDisclosure": false,
               "ThirdPartyName": null,
               "IsSensative": null,
               "SensativeCategory": null,
               "TerminationURI": "http://info.consentua.com/termination",
               "Position": 4,
-              "PurposeGroupId": 8,
-              "ConsentTemplateId": 5,
-              "DataTypeId": 6
-            },
-            {
-              "Id": 32,
-              "Language": "en",
-              "DataUse": "Camera on device",
-              "DataPurpose": "Read QR codes",
-              "URI": "http://info.consentua.com/purpose/1",
-              "Category": "Marketing",
-              "ThirdPartyDisclosure": false,
-              "ThirdPartyName": null,
-              "IsSensative": null,
-              "SensativeCategory": null,
-              "TerminationURI": "http://info.consentua.com/termination",
-              "Position": 4,
-              "PurposeGroupId": 8,
-              "ConsentTemplateId": 5,
-              "DataTypeId": 6
+              "PurposeGroupId": 6,
+              "ConsentTemplateId": 4,
+              "DataTypeId": 0
             }
           ]
         },
         {
-          "Id": 20,
+          "Id": 22,
           "Language": "en",
-          "Description": "Location Data",
-          "Explanation": "Hiring and returning a bike",
-          "ConsentType": "EXPLICIT",
-          "DisplayType": "Linear",
-          "ConsentTemplateId": 5,
-          "Purposes": [
-            {
-              "Id": 44,
-              "Language": "en",
-              "DataUse": "Location data",
-              "DataPurpose": "For the purpose of hiring and returning a bike",
-              "URI": " http://info.consentua.com/purpose/1",
-              "Category": "Bike hire",
-              "ThirdPartyDisclosure": null,
-              "ThirdPartyName": "",
-              "IsSensative": null,
-              "SensativeCategory": "",
-              "TerminationURI": "",
-              "Position": 6,
-              "PurposeGroupId": 20,
-              "ConsentTemplateId": 5,
-              "DataTypeId": 1
-            },
-            {
-              "Id": 45,
-              "Language": "en",
-              "DataUse": "Historical location data",
-              "DataPurpose": "For the purposes of hiring/returning a bike & reviewing journey history",
-              "URI": " http://info.consentua.com/purpose/1",
-              "Category": "Bike hire",
-              "ThirdPartyDisclosure": null,
-              "ThirdPartyName": "",
-              "IsSensative": null,
-              "SensativeCategory": "",
-              "TerminationURI": "",
-              "Position": 7,
-              "PurposeGroupId": 20,
-              "ConsentTemplateId": 5,
-              "DataTypeId": 1
-            },
-            {
-              "Id": 46,
-              "Language": "en",
-              "DataUse": "Real-time location data tracking ",
-              "DataPurpose": "For the purposes of hiring/returning a bike & reviewing and sharing journey history",
-              "URI": " http://info.consentua.com/purpose/1",
-              "Category": "Bike hire",
-              "ThirdPartyDisclosure": null,
-              "ThirdPartyName": "health apps",
-              "IsSensative": null,
-              "SensativeCategory": "",
-              "TerminationURI": "",
-              "Position": 8,
-              "PurposeGroupId": 20,
-              "ConsentTemplateId": 5,
-              "DataTypeId": 1
-            }
-          ]
-        },
-        {
-          "Id": 21,
-          "Language": "en",
-          "Description": "Personal and Payment Data",
-          "Explanation": "For Hiring and returning a bike",
-          "ConsentType": "EXPLICIT",
+          "Description": "Pupil Photo",
+          "Explanation": "Image rights of pupil",
+          "ConsentType": "IMPLICIT",
           "DisplayType": "Binary",
-          "ConsentTemplateId": 5,
+          "ConsentTemplateId": 4,
           "Purposes": [
             {
-              "Id": 47,
+              "Id": 49,
               "Language": "en",
-              "DataUse": "Your name, address, phone number",
-              "DataPurpose": "For the purposes of registering",
+              "DataUse": "Image rights of pupil photo",
+              "DataPurpose": "For the purposes of having a photo taken",
               "URI": " http://info.consentua.com/purpose/1",
               "Category": "Bike hire",
               "ThirdPartyDisclosure": null,
-              "ThirdPartyName": "Payment proccesor company",
+              "ThirdPartyName": "Photographer",
               "IsSensative": null,
               "SensativeCategory": "",
               "TerminationURI": "",
-              "Position": 9,
-              "PurposeGroupId": 21,
-              "ConsentTemplateId": 5,
-              "DataTypeId": 1
-            },
-            {
-              "Id": 48,
-              "Language": "en",
-              "DataUse": "Your name, address, phone number and payment details",
-              "DataPurpose": "For the purposes of hiring/returning a bike",
-              "URI": " http://info.consentua.com/purpose/1",
-              "Category": "Bike hire",
-              "ThirdPartyDisclosure": null,
-              "ThirdPartyName": "Payment proccesor company",
-              "IsSensative": null,
-              "SensativeCategory": "",
-              "TerminationURI": "",
-              "Position": 10,
-              "PurposeGroupId": 21,
-              "ConsentTemplateId": 5,
-              "DataTypeId": 1
+              "Position": 4,
+              "PurposeGroupId": 22,
+              "ConsentTemplateId": 4,
+              "DataTypeId": 0
             }
           ]
         }
@@ -413,7 +566,7 @@
               "Id": 28,
               "Language": "en",
               "DataUse": "No Location data",
-              "DataPurpose": "For the purposes providing targeted advertisments with third parties.",
+              "DataPurpose": "So no targeted advertisments from third parties will be enabled.",
               "URI": "http://info.consentua.com/purpose/1",
               "Category": "Marketing",
               "ThirdPartyDisclosure": false,
@@ -424,13 +577,13 @@
               "Position": 1,
               "PurposeGroupId": 7,
               "ConsentTemplateId": 5,
-              "DataTypeId": 6
+              "DataTypeId": 0
             },
             {
               "Id": 29,
               "Language": "en",
               "DataUse": "Your Historical location data ",
-              "DataPurpose": "For the purposes providing targeted advertisments with third parties.",
+              "DataPurpose": "For the purposes providing targeted advertisments via third parties.",
               "URI": "http://info.consentua.com/purpose/1",
               "Category": "Marketing",
               "ThirdPartyDisclosure": false,
@@ -441,13 +594,13 @@
               "Position": 2,
               "PurposeGroupId": 7,
               "ConsentTemplateId": 5,
-              "DataTypeId": 6
+              "DataTypeId": 0
             },
             {
               "Id": 30,
               "Language": "en",
-              "DataUse": "Your realtime location data",
-              "DataPurpose": "For the purposes providing targeted advertisments with third parties.",
+              "DataUse": "Your historical and realtime location data",
+              "DataPurpose": "For the purposes of providing targeted advertisments via third parties.",
               "URI": "http://info.consentua.com/purpose/1",
               "Category": "Marketing",
               "ThirdPartyDisclosure": false,
@@ -458,13 +611,13 @@
               "Position": 3,
               "PurposeGroupId": 7,
               "ConsentTemplateId": 5,
-              "DataTypeId": 6
+              "DataTypeId": 0
             },
             {
               "Id": 43,
               "Language": "en",
               "DataUse": "Historical, realtime and predicted location data ",
-              "DataPurpose": "For the purposes of Marketing",
+              "DataPurpose": "For the purposes of marketing and promotions to improve your bike share experience",
               "URI": "http://info.consentua.com/purpose/1",
               "Category": "Marketing",
               "ThirdPartyDisclosure": null,
@@ -475,7 +628,7 @@
               "Position": 5,
               "PurposeGroupId": 7,
               "ConsentTemplateId": 5,
-              "DataTypeId": 1
+              "DataTypeId": 0
             }
           ]
         },
@@ -503,7 +656,7 @@
               "Position": 4,
               "PurposeGroupId": 8,
               "ConsentTemplateId": 5,
-              "DataTypeId": 6
+              "DataTypeId": 0
             },
             {
               "Id": 32,
@@ -520,7 +673,7 @@
               "Position": 4,
               "PurposeGroupId": 8,
               "ConsentTemplateId": 5,
-              "DataTypeId": 6
+              "DataTypeId": 0
             }
           ]
         },
@@ -537,7 +690,7 @@
               "Id": 44,
               "Language": "en",
               "DataUse": "Location data",
-              "DataPurpose": "For the purpose of hiring and returning a bike",
+              "DataPurpose": "For the purpose of hiring/returning a bike and fault reporting",
               "URI": " http://info.consentua.com/purpose/1",
               "Category": "Bike hire",
               "ThirdPartyDisclosure": null,
@@ -548,7 +701,7 @@
               "Position": 6,
               "PurposeGroupId": 20,
               "ConsentTemplateId": 5,
-              "DataTypeId": 1
+              "DataTypeId": 0
             },
             {
               "Id": 45,
@@ -565,7 +718,7 @@
               "Position": 7,
               "PurposeGroupId": 20,
               "ConsentTemplateId": 5,
-              "DataTypeId": 1
+              "DataTypeId": 0
             },
             {
               "Id": 46,
@@ -582,7 +735,24 @@
               "Position": 8,
               "PurposeGroupId": 20,
               "ConsentTemplateId": 5,
-              "DataTypeId": 1
+              "DataTypeId": 0
+            },
+            {
+              "Id": 53,
+              "Language": "en",
+              "DataUse": "Origin and destination data",
+              "DataPurpose": "For the purposes of jouney advisment and safety information",
+              "URI": "www.bikeshare.com",
+              "Category": "",
+              "ThirdPartyDisclosure": null,
+              "ThirdPartyName": null,
+              "IsSensative": null,
+              "SensativeCategory": null,
+              "TerminationURI": "",
+              "Position": 11,
+              "PurposeGroupId": 20,
+              "ConsentTemplateId": 5,
+              "DataTypeId": 0
             }
           ]
         },
@@ -610,7 +780,7 @@
               "Position": 9,
               "PurposeGroupId": 21,
               "ConsentTemplateId": 5,
-              "DataTypeId": 1
+              "DataTypeId": 0
             },
             {
               "Id": 48,
@@ -627,133 +797,7 @@
               "Position": 10,
               "PurposeGroupId": 21,
               "ConsentTemplateId": 5,
-              "DataTypeId": 1
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Id": 2,
-      "OwnerId": 2,
-      "Public": false,
-      "Name": "Location Based Marketing ",
-      "Language": "en",
-      "Question": "I consent to getting marketing notifications based on my location within the shopping center",
-      "Explanation": "You consent to recieving marketing and special offers from the retailers within the shopping center based on your current and/or historical location and purchasing history.",
-      "ConsentType": "Explicit",
-      "DisplayType": "linear",
-      "PurposeGroups": [
-        {
-          "Id": 2,
-          "Language": "en",
-          "Description": "Location",
-          "Explanation": "Location",
-          "ConsentType": "Explicit",
-          "DisplayType": "linear",
-          "ConsentTemplateId": 2,
-          "Purposes": [
-            {
-              "Id": 8,
-              "Language": "en",
-              "DataUse": "None",
-              "DataPurpose": "No offers",
-              "URI": "http://info.consentua.com/en/purpose/no_data",
-              "Category": "Marketing",
-              "ThirdPartyDisclosure": false,
-              "ThirdPartyName": null,
-              "IsSensative": null,
-              "SensativeCategory": null,
-              "TerminationURI": "http://info.consentua.com/termination",
-              "Position": 1,
-              "PurposeGroupId": 2,
-              "ConsentTemplateId": 2,
-              "DataTypeId": 1
-            },
-            {
-              "Id": 9,
-              "Language": "en",
-              "DataUse": "Current Location within the center",
-              "DataPurpose": "Recieve general offers",
-              "URI": "http://info.consentua.com/en/purpose/revieve-general-offers",
-              "Category": "Marketing",
-              "ThirdPartyDisclosure": false,
-              "ThirdPartyName": null,
-              "IsSensative": null,
-              "SensativeCategory": null,
-              "TerminationURI": "http://info.consentua.com/termination",
-              "Position": 2,
-              "PurposeGroupId": 2,
-              "ConsentTemplateId": 2,
-              "DataTypeId": 4
-            },
-            {
-              "Id": 10,
-              "Language": "en",
-              "DataUse": "Email Address and Location within the center for the last hour",
-              "DataPurpose": "Recieve general and personalised offers",
-              "URI": "http://info.consentua.com/en/purpose/recieve-general-personal-offers",
-              "Category": "Marketing",
-              "ThirdPartyDisclosure": false,
-              "ThirdPartyName": null,
-              "IsSensative": null,
-              "SensativeCategory": null,
-              "TerminationURI": "http://info.consentua.com/termination",
-              "Position": 3,
-              "PurposeGroupId": 2,
-              "ConsentTemplateId": 2,
-              "DataTypeId": 5
-            },
-            {
-              "Id": 11,
-              "Language": "en",
-              "DataUse": "Email Address and Location within the center for the last day",
-              "DataPurpose": "Recieve personalised offers",
-              "URI": "http://info.consentua.com/en/purpose/recieve-personal-offers",
-              "Category": "Marketing",
-              "ThirdPartyDisclosure": false,
-              "ThirdPartyName": null,
-              "IsSensative": null,
-              "SensativeCategory": null,
-              "TerminationURI": "http://info.consentua.com/termination",
-              "Position": 4,
-              "PurposeGroupId": 2,
-              "ConsentTemplateId": 2,
-              "DataTypeId": 5
-            },
-            {
-              "Id": 12,
-              "Language": "en",
-              "DataUse": "Name, Email Address and Location within the center for the last week",
-              "DataPurpose": "Recieve personalised and promotional offers",
-              "URI": "http://info.consentua.com/en/purpose/recieve-personal-promotional-offers",
-              "Category": "Marketing",
-              "ThirdPartyDisclosure": false,
-              "ThirdPartyName": null,
-              "IsSensative": null,
-              "SensativeCategory": null,
-              "TerminationURI": "http://info.consentua.com/termination",
-              "Position": 5,
-              "PurposeGroupId": 2,
-              "ConsentTemplateId": 2,
-              "DataTypeId": 5
-            },
-            {
-              "Id": 13,
-              "Language": "en",
-              "DataUse": "Name, Email Address; All historical location within the center and your purchasing history within the center",
-              "DataPurpose": "Recieve personalised, promotional and loyalty based offers",
-              "URI": "http://info.consentua.com/en/purpose/recieve-loyalty-offers",
-              "Category": "Marketing",
-              "ThirdPartyDisclosure": false,
-              "ThirdPartyName": null,
-              "IsSensative": null,
-              "SensativeCategory": null,
-              "TerminationURI": "http://info.consentua.com/termination",
-              "Position": 6,
-              "PurposeGroupId": 2,
-              "ConsentTemplateId": 2,
-              "DataTypeId": 6
+              "DataTypeId": 0
             }
           ]
         }
