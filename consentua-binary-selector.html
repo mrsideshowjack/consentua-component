@@ -62,7 +62,7 @@
                     <h3>For the purposes of</h3>
                     [[item.DataPurpose]]
                     </article>
-                    <paper-toggle-button class="tgl-binary" checked></paper-toggle-button>
+                    <paper-toggle-button class="tgl-binary" checked="{{_getUserConsent(item)}}"></paper-toggle-button>
                   </div>
                 </template>
               </iron-list>
@@ -83,10 +83,30 @@
             reflectToAttribute: true,
             value: {}
           },
+          userConsents: {
+            type: Object,
+            reflectToAttribute: true,
+            notify: true,
+            value: {}
+          }
         };
       }
       ready() {
         super.ready();
+      }
+      _getUserConsent(item){
+        // if this purpose is the same as matching 1 in userConsents return t else f
+        var arr = this.userConsents.Consent.Purpose;
+        console.log("arr", arr);
+        var isConsented = arr.find(function(findConsent){
+          return findConsent.PurposeId === item.Id;
+        });
+        
+        if(Array.isArray(arr)){
+          console.log(isConsented);
+          return isConsented;
+        }
+        
       }
     }
 

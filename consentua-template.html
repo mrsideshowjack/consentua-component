@@ -33,12 +33,12 @@
 
       <!-- template is binary -->
       <template is="dom-if" if="{{isBinary}}">
-        <consentua-binary-selector purpose-group="[[_getFirstPg(template.PurposeGroups)]]"></consentua-binary-selector>
+        <consentua-binary-selector purpose-group="[[_getFirstPg(template.PurposeGroups)]]" user-consents="[[userConsents]]"></consentua-binary-selector>
       </template>
 
       <!-- template is linear -->
       <template is="dom-if" if="{{isLinear}}">
-        <consentua-linear-selector purpose-group="[[_getFirstPg(template.PurposeGroups)]]"></consentua-linear-selector>
+        <consentua-linear-selector purpose-group="[[_getFirstPg(template.PurposeGroups)]]" user-consents="[[userConsents]]"></consentua-linear-selector>
       </template>
 
       <!-- template has more than 1 purpose group (mixed/grouped)-->
@@ -50,12 +50,12 @@
           <template is="dom-repeat" items="[[template.PurposeGroups]]">
             <template is="dom-if" if="{{_isLinear(item.DisplayType)}}">
               <div>
-                <consentua-linear-selector purpose-group="[[item]]"></consentua-linear-selector>
+                <consentua-linear-selector purpose-group="[[item]]" user-consents="[[userConsents]]"></consentua-linear-selector>
               </div>
             </template>
             <template is="dom-if" if="{{_isBinary(item.DisplayType)}}">
               <div>
-                <consentua-binary-selector purpose-group="[[item]]"></consentua-binary-selector>
+                <consentua-binary-selector purpose-group="[[item]]" user-consents="[[userConsents]]"></consentua-binary-selector>
               </div>
             </template>
           </template>
@@ -71,6 +71,12 @@
       static get properties() {
         return {
           template: {
+            type: Object,
+            notify: true,
+            reflectToAttribute: true,
+            value: {}
+          },
+          userConsents: {
             type: Object,
             notify: true,
             reflectToAttribute: true,
