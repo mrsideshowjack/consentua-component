@@ -65,7 +65,7 @@
         max-height: 20px;
         margin: 0px 5px;
       }
-      .no-data{
+      .no-template{
         background-color: var(--consentua-main);
         text-align: center;
         color: #fff;
@@ -73,41 +73,69 @@
         max-width: 40%;
         margin: 0px auto;
       }
+      .loading{
+        height: 500px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     </style>
       <!-- demo template -->
-      <iron-ajax
+<!--       <iron-ajax
          auto
          url="template.json"
          handle-as="json"
-         last-response="{{data}}"></iron-ajax>
+         last-response="{{template}}"></iron-ajax> -->
      <iron-ajax
          auto
          url="[[apiEndpoint]]/login/Service"
-         body="[[loginBody]]"
+         body="[[_getLoginBody()]]"
          method="POST"
          content-type="application/json"
-         handle-as="json"
-         on-response="_resLogin"></iron-ajax>
-<!--      <iron-ajax
+         on-response="_resLogin"
+         loading="{{ajaxLoading}}"></iron-ajax>
+     <iron-ajax
          id="getTemplateAjax"
          url="[[apiEndpoint]]/template/Get"
-         params='[[_getTemplateParams()]]'
+         params='[[templateParams]]'
          handle-as="json"
-         last-response="{{data}}"></iron-ajax> -->
+         last-response="{{template}}"
+         loading="{{ajaxLoading}}"></iron-ajax>
+     <iron-ajax
+         auto
+         id="getServiceUserAjax"
+         url="[[apiEndpoint]]/user/GetServiceUser"
+         params='[[getServiceUserParams]]'
+         handle-as="json"
+         on-response="_resGetServiceUser"
+         loading="{{ajaxLoading}}"></iron-ajax>
+     <iron-ajax
+         id="getUserConsentsAjax"
+         url="[[apiEndpoint]]/userconsent/GetConsents"
+         method="POST"
+         body='[[getConsentsBody]]'
+         content-type="application/json"
+         last-response="{{userConsents}}"
+         loading="{{ajaxLoading}}"></iron-ajax>
 
+      <!-- finished loading ajax -->
+      <template is="dom-if" if="{{!ajaxLoading}}">
 
-      <!-- there is data -->
-      <template is="dom-if" if="{{isData}}">
+      <!-- there is template -->
+      <template is="dom-if" if="{{isTemplate}}">
+
       <!-- each template is a page -->
        <iron-pages selected="{{selectedMainPage}}" id="pageMain">
-          <template is="dom-repeat" items="[[data.Templates]]">
+          <template is="dom-repeat" items="[[template.Templates]]">
             <consentua-template template="[[item]]"></consentua-template>
           </template>
        </iron-pages>
 
       <div id="pageControls">
         <paper-button id="btnPrev" raised on-tap="_prevPage">Previous</paper-button>
-        <span>[[_mainAdder(selectedMainPage)]]/[[_totMainPages(data)]]</span>
+        <!-- page indicator e.g 1/3-->
+        <span>[[_mainAdder(selectedMainPage)]]/[[_totMainPages(template)]]</span>
         <paper-button id="btnNext" raised on-tap="_nextPage">Next</paper-button>
       </div>
       <span id="branding">
@@ -116,13 +144,22 @@
       </span>
       </template>
 
-    <!-- there is no data -->
-    <template is="dom-if" if="{{!isData}}">
-      <section class="no-data">
+    <!-- there is no template -->
+    <template is="dom-if" if="{{!isTemplate}}">
+      <section class="no-template">
         <iron-icon icon="consentua-icons:mood-bad"></iron-icon>
-        <p>No consent tempaltes found</p>
+        <p>No consent templates found</p>
         <img src="../img/consentua-logo-white.svg">
       </section>
+    </template>
+
+    </template>
+
+    <!-- ajax is loading -->
+    <template is="dom-if" if="{{ajaxLoading}}">
+      <div class="loading">
+        Loading...
+      </div>
     </template>
 
   </template>
@@ -141,7 +178,6 @@
         return {
           key:{
             type: String,
-            readOnly: true,
             notify: true
           },
           formatedToken: {
@@ -155,17 +191,14 @@
           },
           clientId:{
             type: String,
-            readOnly: true,
             notify: true
           },
           serviceId:{
             type: String,
-            readOnly: true,
             notify: true
           },
           deviceId:{
             type: String,
-            readOnly: true,
             notify: true
           },
           language: {
@@ -173,25 +206,47 @@
             notify: true,
             value: 'en'
           },
+          userIdentifier: {
+            type: String,
+            notify: true
+          },
+          UserId:{
+            type: Number,
+            notify: true
+          },
           apiEndpoint:{
             type: String,
             notify: true,
             value: 'http://api.consentua.com'
           },
-          loginBody: {
+          ajaxLoading:{
+            type: Boolean,
+            notify: true
+          },
+          templateParams: {
             type: Object,
             notify: true,
-            computed: '_returnLoginBody(formatedToken, clientId, serviceId, deviceId)'
+            computed: '_getTemplateParams(clientId, serviceId, accessToken, language)'
           },
-          data: {
+          getServiceUserParams: {
+            type: Object,
+            notify: true,
+            computed: '_getServiceUserParams(userIdentifier, serviceId, accessToken)'
+          },
+          getConsentsBody: {
+            type: Object,
+            notify: true,
+            computed: '_getConsentsBody(clientId, serviceId, userId, accessToken)'
+          },
+          template: {
             type: Object,
             notify: true,
             value: {}
           },
-          isData: {
+          isTemplate: {
             type: Boolean,
             notify: true,
-            computed: '_isData(data)'
+            computed: '_isTemplate(template)'
           },
           selectedMainPage:{
             type: Number,
@@ -213,20 +268,36 @@
        var hash = CryptoJS.MD5(key + fullDate).toString();
        return hash;
       }
-      _returnLoginBody(formatedToken, clientId, serviceId, deviceId){
+      //https://github.com/Valve/fingerprintjs2 
+      _getLoginBody(){
         return {
-          ClientId: this.clientId,
-          ServiceId: this.serviceId,
-          LoginToken: this.formatedToken,
-          DeviceId: this.deviceId //https://github.com/Valve/fingerprintjs2 
+          "ClientId": this.clientId,
+          "ServiceId": this.serviceId,
+          "LoginToken": this.formatedToken,
+          "DeviceId": this.deviceId 
         };
       }
-      _getTemplateParams(){
+      _getTemplateParams(clientId, serviceId, accessToken, language){
         return {
-          "clientId": this.clientId,
-          "serviceId": this.serviceId,
-          "accessToken":  this.accessToken,
-          "language":  this.language
+          "ClientId": clientId,
+          "ServiceId": serviceId,
+          "accessToken": accessToken,
+          "language":  language
+        };
+      }
+      _getServiceUserParams(userIdentifier, serviceId, accessToken){
+        return{
+          "identifier": userIdentifier,
+          "serviceId": serviceId,
+          "Token": accessToken
+        }
+      }
+      _getConsentsBody(clientId, serviceId, userId, accessToken){
+        return {
+          "ClientId": clientId,
+          "ServiceId": serviceId,
+          "UserId":  userId,
+          "Token": accessToken,
         };
       }
       _pageBinary(page){
@@ -243,16 +314,15 @@
           return false;
          }
       }
-      _isData(data){
-        if (data == null || data == undefined || Object.keys(data).length === 0 && data.constructor === Object) {
+      _isTemplate(template){
+        if (template == null || template == undefined || Object.keys(template).length === 0 && template.constructor === Object) {
           return false;
         } else{
           return true;
         }
       }
-      _totMainPages(data){
-        console.log("this.data", this.data);
-        return this.data.Templates.length + 1;
+      _totMainPages(template){
+        return this.template.Templates.length + 1;
       }
       _mainAdder(n){
         return n + 1;
@@ -291,17 +361,25 @@
         }
         console.error("Error with AJAX: " + fault);
       }
-      _resLogin(event){
+      _resLogin(event, accessToken){
         var res = event.detail.response;
         if (res.Success) {
-          console.log("service logged in!");
-          this.accessToken = event.detail.response.Token;
-          console.log("this.accessToken", this.accessToken);
+          this.accessToken = res.Token;
           this.$.getTemplateAjax.generateRequest();
         } else{
           this._resErr("Failure to login");
+        }
       }
-      
+
+      // get the UserID 
+      _resGetServiceUser(event, userId){
+        if (event.detail.response.UserId) {
+          this.userId = event.detail.response.UserId;
+          console.log("userId", this.userId);
+          this.$.getUserConsentsAjax.generateRequest();
+        } else{
+          console.error("no user id");
+        }
       }
     }
 
