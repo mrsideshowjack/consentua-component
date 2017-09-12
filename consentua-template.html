@@ -101,18 +101,17 @@
       }
     ready() {
       super.ready();
-      var t = this.template;
-      if (t.PurposeGroups.length > 1) {
+      if (this.template.PurposeGroups.length > 1) {
         // is mixed
         this.isMixed = true;
         this.isLinear = false;
         this.isBinary = false;
-      } else if(t.DisplayType == 'linear' || t.DisplayType == 'Linear' || t.DisplayType == 'LINEAR'){
+      } else if(this.template.DisplayType == 'linear' || this.template.DisplayType == 'Linear' || this.template.DisplayType == 'LINEAR'){
         // is linear
         this.isLinear = true;
         this.isMixed = false;
         this.isBinary = false;
-      } else if(t.DisplayType == 'binary' || t.DisplayType == 'Binary' || t.DisplayType == 'BINARY'){
+      } else if(this.template.DisplayType == 'binary' || this.template.DisplayType == 'Binary' || this.template.DisplayType == 'BINARY'){
         // is binary
         this.isBinary = true;
         this.isLinear = false;
@@ -124,15 +123,15 @@
     _getFirstPg(pg){
         return pg[0];
     }
-    _isLinear(pg){
-      if (pg == 'linear' || pg == 'Linear' || pg == 'LINEAR') {
+    _isLinear(dt){
+      if (dt == 'linear' || dt == 'Linear' || dt == 'LINEAR') {
         return true;
       } else{
         return false;
       }
     }
-    _isBinary(pg){
-      if (pg == 'binary' || pg == 'Binary' || pg == 'BINARY') {
+    _isBinary(dt){
+      if (dt == 'binary' || dt == 'Binary' || dt == 'BINARY') {
         return true;
       } else{
         return false;

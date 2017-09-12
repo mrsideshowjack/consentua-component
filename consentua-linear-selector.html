@@ -5,6 +5,19 @@
       :host {
         display: block;
       }
+      paper-button{
+        background-color: var(--green-l);
+        color: #fff;
+        text-transform: capitalize;
+        min-width: 22%;
+      }
+      paper-button iron-icon{
+        --iron-icon-height: 32px;
+        --iron-icon-width: 32px;
+      }
+      paper-button[disabled]{
+        background-color: var(--green-d);
+      }
       .main-page{
       }
       .main-page > article{
@@ -81,10 +94,6 @@
         width: 55%;
         margin: 1em 0px;
       }
-      .linear-page #linearBtnContainer iron-icon.linear-btn-icon{
-        height: 32px;
-        width: 32px;
-      }
     </style>
     <section>
       <!-- <template is="dom-repeat" items="[[purposeGroup]]"> -->
@@ -106,21 +115,22 @@
                       <p>[[item.DataUse]]</p>
                       <h3>For the purposes of</h3>
                       <p>[[item.DataPurpose]]</p>
+                    <div id="linearBtnContainer">
+                      <dom-if if="[[!_getUserConsent(item)]]">
+                        <template>
+                          <paper-button class="btn-setting" on-tap="_linearSelect" raised>Use this setting</paper-button>
+                        </template>
+                      </dom-if>
+                      <dom-if if="[[_getUserConsent(item)]]">
+                        <template>
+                          <paper-button class="btn-setting" raised>Current setting <iron-icon class="linear-btn-icon" icon="consentua-icons:check"></iron-icon></paper-button>
+                        </template>
+                      </dom-if>
+                      </div>
                     </div>
                   </template>
               </iron-pages>
-              <div id="linearBtnContainer">
-                <dom-if if="[[!linearCurrentSetting]]">
-                  <template>
-                    <paper-button class="btn-setting" on-tap="_linearSelect" raised>Use this setting</paper-button>
-                  </template>
-                </dom-if>
-                <dom-if if="[[linearCurrentSetting]]">
-                  <template>
-                    <paper-button class="btn-setting" raised>Current setting <iron-icon class="linear-btn-icon" icon="consentua-icons:check"></iron-icon></paper-button>
-                  </template>
-                </dom-if>
-              </div>
+
               </article>
 
             </div>
@@ -142,7 +152,13 @@
           selectedLinearPage:{
             type: Number,
             notify: true,
-            value: 0
+            value: 0,
+          },
+          userConsents: {
+            type: Object,
+            reflectToAttribute: true,
+            notify: true,
+            value: {}
           }
         };
       }
@@ -155,6 +171,25 @@
         } else{
           this.linearCurrentSetting = true;
         }
+      }
+      _getUserConsent(item){
+          console.log("item", item.Id);
+        // if this purpose is the same as matching 1 in userConsents return t else f
+        // var arr = this.userConsents.Consent.Purposes;
+        console.log(this.userConsents);
+        // var isConsented = arr.find(function(findConsent){
+        //   return findConsent.PurposeId === item.Id;
+        // });
+        // console.log("isConsented", isConsented);
+        
+        // if(isConsented != undefined){
+        //   // user's consent was found and return it
+        //   return isConsented.Consent;
+        // } else{
+        //   // user's consent was not found
+        //   return false;
+        // }
+        
       }
     }
 

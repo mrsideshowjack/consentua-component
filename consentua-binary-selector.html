@@ -95,16 +95,20 @@
         super.ready();
       }
       _getUserConsent(item){
+          console.log("item", item.Id);
+          console.log(this.userConsents);
         // if this purpose is the same as matching 1 in userConsents return t else f
-        var arr = this.userConsents.Consent.Purpose;
-        console.log("arr", arr);
+        var arr = this.userConsents.Consent.Purposes;
         var isConsented = arr.find(function(findConsent){
           return findConsent.PurposeId === item.Id;
         });
         
-        if(Array.isArray(arr)){
-          console.log(isConsented);
-          return isConsented;
+        if(isConsented != undefined){
+          // user's consent was found and return it
+          return isConsented.Consent;
+        } else{
+          // user's consent was not found, 
+          return false;
         }
         
       }

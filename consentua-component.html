@@ -365,7 +365,7 @@
         if (typeof fault === 'object'){
           fault = fault.detail.error.message;
         }
-        console.error("Error with AJAX: " + fault);
+        console.warn("Error with AJAX: " + fault);
       }
       _resLogin(event, accessToken){
         var res = event.detail.response;
@@ -381,7 +381,6 @@
       _resGetServiceUser(event, userId){
         if (event.detail.response.UserId) {
           this.userId = event.detail.response.UserId;
-          console.log("userId", this.userId);
           this.$.getUserConsentsAjax.generateRequest();
         } else{
           console.error("no user id");
