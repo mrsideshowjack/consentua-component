@@ -2,6 +2,7 @@
   "name": "consentua-component",
   "description": "consentua component",
   "main": "consentua-component.html",
+  "license": "Apache-2.0",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
     "paper-toggle-button": "PolymerElements/paper-toggle-button#^2.0.0",
@@ -11,14 +12,10 @@
     "paper-button": "PolymerElements/paper-button#^2.0.0",
     "iron-selector": "PolymerElements/iron-selector#^2.0.0",
     "paper-radio-button": "PolymerElements/paper-radio-button#^2.0.0",
-<<<<<<< HEAD
     "paper-radio-group": "PolymerElements/paper-radio-group#^2.0.0",
     "iron-icon": "PolymerElements/iron-icon#^2.0.0",
     "iron-iconset": "PolymerElements/iron-iconset#^2.0.0",
     "iron-iconset-svg": "PolymerElements/iron-iconset-svg#^2.0.0"
-=======
-    "paper-radio-group": "PolymerElements/paper-radio-group#^2.0.0"
->>>>>>> 4c9f2f15dd6e0c7d1ac559645a2aed6125724072
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
@@ -29,19 +26,11 @@
     "polymer": "^2.0.0"
   },
   "homepage": "https://github.com/mrsideshowjack/consentua-component",
-<<<<<<< HEAD
   "_release": "4c9f2f15dd",
   "_resolution": {
     "type": "branch",
     "branch": "master",
     "commit": "4c9f2f15dd6e0c7d1ac559645a2aed6125724072"
-=======
-  "_release": "1fb46f2924",
-  "_resolution": {
-    "type": "branch",
-    "branch": "master",
-    "commit": "1fb46f2924998ddea3b5c0ae8a16ad79638028a6"
->>>>>>> 4c9f2f15dd6e0c7d1ac559645a2aed6125724072
   },
   "_source": "https://github.com/mrsideshowjack/consentua-component.git",
   "_target": "*",

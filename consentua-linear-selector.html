@@ -154,6 +154,10 @@
             notify: true,
             value: 0,
           },
+          bob: {
+            type: Boolean,
+            computed: '_getUserConsent'
+          },
           userConsents: {
             type: Object,
             reflectToAttribute: true,
