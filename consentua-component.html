@@ -6,20 +6,36 @@
 <link rel="import" href="../iron-pages/iron-pages.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../iron-list/iron-list.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<script src="../currycatcryptojs/rollups/md5.js"></script>
+<script src="../currycatcryptojs/components/enc-base64-min.js"></script>
+<link rel="import" href="consentua-icons.html">
+<link rel="import" href="consentua-template.html">
 
+<!--
+`consentua-component` a web component to access and use <a href="consentua.com" >consentua</a>
+ ### Styling
+ Custom property | Description | Default
+ ----------------|-------------|----------
+ `--main-background-color` | The main background colour | `#e1e1e1`
+
+@demo demo/index.html
+-->
 
 <dom-module id="consentua-component">
   <template>
     <style>
       :host {
         --consentua-main:#9A1144;
+        --main-background-color: #e1e1e1;
         --green-l:#4CAF50;
         --green-d:#265728;
-        --primary-color:var(--green-l);
         width: 100%;
+        max-width: 500px;
+        margin: 5px auto;
         height: 100%;
         display: block;
-        background-color: #e1e1e1;
+        background-color: var(--main-background-color);
         padding: 1em 0em;
       }
       paper-button{
@@ -31,116 +47,11 @@
       paper-button[disabled]{
         background-color: var(--green-d);
       }
-      .main-page{
-      }
-      .main-page > article{
-            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.35);
-        height: 670px;
-        padding: 1em;
-        margin: 0em 1em;
-        background: #fff;
-        border-radius: 5px;
-      }
       #pageControls{
         margin-top: 2em;
         display: flex;
         justify-content: space-around;
         align-items: center;
-      }
-      #binaryAllContain{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      #binaryAllContain paper-toggle-button{
-        align-self: flex-end;
-        margin: 1em;
-      }
-      iron-list{
-        height: 500px;
-        overflow-y: auto;
-        border-top: 2px solid #eee;
-      }
-      iron-list .item{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 2px solid #eee;
-      }
-      iron-list .item article{
-        padding: 1em 0em;
-      }
-      iron-list .item paper-toggle-button{
-        margin: 1em;
-      }
-      /*.tgl-binary, .tgl-binary-all{
-        float: right;
-      }*/
-      .linear-page{
-        display: flex;
-      }
-      .linear-page paper-radio-group{
-        --paper-radio-group-item-padding: 0.7em auto;
-            padding: 1em 0em 1em 2em;
-      }
-      .linear-page paper-radio-button{
-        --paper-radio-button-size: 25px;
-        --paper-radio-button-unchecked-background-color: #d6d6d6;
-        --paper-radio-button-radio-container:{
-          margin: 0px auto;
-          border: 7px solid #d6d6d6;
-          border-radius: 50%;
-        };
-      }
-      .linear-page paper-radio-button[checked]:before{
-        content: '';
-        position: absolute;
-        display: block;
-        width: 0;
-        height: 0;
-        border-style: solid;
-        border-width: 10px 20px 10px 0;
-        border-color: transparent #ffffff transparent transparent;
-        margin-left: 45px;
-        margin-top: 8px;
-      }
-      .linear-page paper-radio-button:after{
-        content: '';
-        position: relative;
-        display: block;
-        background-color: #d6d6d6;
-        width: 14px;
-        height: 25px;
-        left: 27%;
-      }
-      .linear-page paper-radio-button:nth-last-of-type(1):after{
-        background-color: transparent;
-      }
-      /*.linear-page paper-radio-button:before{
-        position: relative;
-        display: block;
-        content: '';
-        width: 15px;
-        height: 15px;
-        border-radius: 50%;
-        background-color: #7e7e7e;
-        top: 25px;
-        left: 10px;
-      }*/
-      .linear-page > article{
-        display:flex;
-        flex-direction:column;
-        flex: 1;
-      }
-      #pageLinear{
-        flex: 1;
-        border-top: 2px solid #eee;
-        border-bottom: 2px solid #eee;
-      }
-      .linear-page .btn-setting{
-        align-self: flex-start;
-        width: 55%;
-        margin: 1em 0px;
       }
       #branding{
         margin-top: 1em;
@@ -155,75 +66,112 @@
         max-height: 20px;
         margin: 0px 5px;
       }
+      .no-template{
+        background-color: var(--consentua-main);
+        text-align: center;
+        color: #fff;
+        padding: 2em;
+        max-width: 40%;
+        border-radius: 5px;
+        margin: 0px auto;
+      }
+      .loading{
+        height: 500px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     </style>
-      <iron-ajax
+      <!-- test template -->
+<!--       <iron-ajax
          auto
-         url="demo/template.json"
+         url="template.json"
          handle-as="json"
-         last-response="{{data}}"></iron-ajax>
-      <iron-pages attr-for-selected="pageNo" selected="{{selectedMainPage}}" id="pageMain">
-        <!-- Binary Consent -->
-        <div class="main-page" pageNo="1">
-          <article>
-          <h2>[[binaryTemplate.Question]]</h2>
-          <p>[[binaryTemplate.Explanation]]</p>
-          <span id="binaryAllContain">
-          <p>Allow all purposes</p>
-          <paper-toggle-button class="tgl-binary-all" checked></paper-toggle-button>
-          </span>
-          <iron-list items="[[binaryPurposes]]" as="item">
-            <template>
-              <div class="item">
-                <article>
-                <h3>We will use</h3>
-                [[item.DataUse]]
-                <h3>For the purposes of</h3>
-                [[item.DataPurpose]]
-                </article>
-                <paper-toggle-button class="tgl-binary" checked></paper-toggle-button>
-              </div>
-            </template>
-          </iron-list>
-          </article>
-        </div>
-        <!-- Linear Consent -->
-        <div class="main-page linear-page" pageNo="2">
-        <!-- page nav radio buttons -->
-          <paper-radio-group attr-for-selected="name" selected="{{selectedLinearPage}}">
-            <template is="dom-repeat" items="{{linearPurposes}}">
-              <paper-radio-button noink name="[[index]]"></paper-radio-button><br>
-            </template>
-          </paper-radio-group>
+         last-response="{{template}}"></iron-ajax> -->
+     <iron-ajax
+         auto
+         url="[[apiEndpoint]]/login/Service"
+         body="[[_getLoginBody()]]"
+         method="POST"
+         content-type="application/json"
+         on-response="_resLogin"
+         loading="{{ajaxLoading}}"></iron-ajax>
+     <iron-ajax
+         id="getTemplateAjax"
+         url="[[apiEndpoint]]/template/Get"
+         params='[[templateParams]]'
+         handle-as="json"
+         last-response="{{template}}"
+         loading="{{ajaxLoading}}"></iron-ajax>
+     <iron-ajax
+         auto
+         id="getServiceUserAjax"
+         url="[[apiEndpoint]]/user/GetServiceUser"
+         params='[[getServiceUserParams]]'
+         handle-as="json"
+         on-response="_resGetServiceUser"
+         loading="{{ajaxLoading}}"></iron-ajax>
+     <iron-ajax
+         id="getUserConsentsAjax"
+         url="[[apiEndpoint]]/userconsent/GetConsents"
+         method="POST"
+         body='[[getConsentsBody]]'
+         content-type="application/json"
+         last-response="{{userConsents}}"
+         loading="{{ajaxLoading}}"></iron-ajax>
 
-          <article>
-          <h2>[[linearTemplate.Question]]</h2>
-          <p>[[linearTemplate.Explanation]]</p>
-          <iron-pages selected="[[selectedLinearPage]]" id="pageLinear">
-            <template is="dom-repeat" items="{{linearPurposes}}">
-              <div>
-              <h3>We will use</h3>
-              <p>[[item.DataUse]]</p>
+      <!-- finished loading ajax -->
+      <template is="dom-if" if="{{!ajaxLoading}}">
 
-              <h3>For the purposes of</h3>
-              <p>[[item.DataPurpose]]</p>
-              </div>
-            </template>
-          </iron-pages>
-          <paper-button class="btn-setting" raised>Use this setting</paper-button>
-          </article>
-        </div>
-      </iron-pages>
+      <!-- there is template -->
+      <template is="dom-if" if="{{isTemplate}}">
+
+      <!-- each template is a page -->
+       <iron-pages selected="{{selectedMainPage}}" id="pageMain">
+          <template is="dom-repeat" items="[[template.Templates]]">
+            <consentua-template user-consents="[[userConsents]]"
+                                template="[[item]]"
+                                api-endpoint="[[apiEndpoint]]"
+                                access-token="[[accessToken]]"
+                                client-id="[[clientId]]"
+                                service-id="[[serviceId]]"
+                                user-id="[[userId]]"
+            ></consentua-template>
+          </template>
+       </iron-pages>
+
       <div id="pageControls">
-        <paper-button disabled id="btnPrev" raised on-tap="_pageBinary">Previous</paper-button>
-        <span>[[selectedMainPage]]/2</span>
-        <paper-button id="btnNext" raised on-tap="_pageLinear">Next</paper-button>
+        <paper-button id="btnPrev" raised on-tap="_prevPage">Previous</paper-button>
+        <!-- page indicator e.g 1/3-->
+        <span>[[_mainAdder(selectedMainPage)]]/[[_totMainPages(template)]]</span>
+        <paper-button id="btnNext" raised on-tap="_nextPage">Next</paper-button>
       </div>
       <span id="branding">
         Service provided by
         <img src="../img/consentua-logo-white.svg">
       </span>
-  </template>
+      </template>
 
+    <!-- there is no template -->
+    <template is="dom-if" if="{{!isTemplate}}">
+      <section class="no-template">
+        <iron-icon icon="consentua-icons:mood-bad"></iron-icon>
+        <p>No consent templates found</p>
+        <img src="consentua-logo-white.svg">
+      </section>
+    </template>
+
+    </template>
+
+    <!-- ajax is loading -->
+    <template is="dom-if" if="{{ajaxLoading}}">
+      <div class="loading">
+        Loading Consentua...
+      </div>
+    </template>
+
+  </template>
   <script>
     /**
      * `consentua-component`
@@ -237,60 +185,180 @@
       static get is() { return 'consentua-component'; }
       static get properties() {
         return {
-          data: {
-            type: Object,
+          key:{
+            type: String,
             notify: true
           },
-          binaryPurposes:{
-            type: Array,
+          formatedToken: {
+            type: String,
             notify: true,
-            computed: '_returnBinaryPurposes(data)'
+            computed: '_formatToken(key)'
           },
-          linearPurposes:{
-            type: Array,
+          accessToken:{
+            type: String,
+            notify: true
+          },
+          clientId:{
+            type: String,
+            notify: true
+          },
+          serviceId:{
+            type: String,
+            notify: true
+          },
+          deviceId:{
+            type: String,
+            notify: true
+          },
+          language: {
+            type: String,
             notify: true,
-            computed: '_returnLinearPurposes(data)'
+            value: 'en'
           },
-          binaryTemplate:{
+          userIdentifier: {
+            type: String,
+            notify: true
+          },
+          userId:{
+            type: Number,
+            notify: true
+          },
+          apiEndpoint:{
+            type: String,
+            notify: true,
+            value: 'http://api.consentua.com'
+          },
+          ajaxLoading:{
+            type: Boolean,
+            notify: true
+          },
+          templateParams: {
             type: Object,
             notify: true,
-            computed: '_returnBinaryTemplate(data)'
+            computed: '_getTemplateParams(clientId, serviceId, accessToken, language)'
           },
-          linearTemplate:{
+          getServiceUserParams: {
             type: Object,
             notify: true,
-            computed: '_returnLinearTemplate(data)'
+            computed: '_getServiceUserParams(userIdentifier, serviceId, accessToken)'
+          },
+          getConsentsBody: {
+            type: Object,
+            notify: true,
+            computed: '_getConsentsBody(clientId, serviceId, userId, accessToken)'
+          },
+          template: {
+            type: Object,
+            notify: true,
+            value: {}
+          },
+          userConsents: {
+            type: Object,
+            notify: true,
+            value: {}
+          },
+          isTemplate: {
+            type: Boolean,
+            notify: true,
+            computed: '_isTemplate(template)'
           },
           selectedMainPage:{
             type: Number,
-            value: 1
-          },
-          selectedLinearPage:{
-            type: Number,
             notify: true,
             value: 0
-          }
+          },
         };
       }
-      _returnBinaryPurposes(data){
-        return data.Templates[0].PurposeGroups[0].Purposes;
+      ready() {
+        super.ready();
+        this.addEventListener('iron-ajax-error', e => this._resErr(e));
       }
-      _returnLinearPurposes(data){
-        return data.Templates[1].PurposeGroups[0].Purposes;
+      _formatToken(key){
+       //get date and it to the key, then hash
+       var date = new Date().getDate();
+       var month = new Date().getMonth() +1; //add 1 to month, as it starts from 0, not 1
+       var year = new Date().getFullYear();
+       var fullDate = "_" + date + "_" + month + "_" + year;
+       var hash = CryptoJS.MD5(key + fullDate).toString();
+       return hash;
       }
-      _returnBinaryTemplate(data){
-        return data.Templates[0];
+      //https://github.com/Valve/fingerprintjs2 
+      _getLoginBody(){
+        return {
+          "ClientId": this.clientId,
+          "ServiceId": this.serviceId,
+          "LoginToken": this.formatedToken,
+          "DeviceId": this.deviceId 
+        };
       }
-      _returnLinearTemplate(data){
-        return data.Templates[1];
+      _getTemplateParams(clientId, serviceId, accessToken, language){
+        return {
+          "ClientId": clientId,
+          "ServiceId": serviceId,
+          "accessToken": accessToken,
+          "language":  language
+        };
       }
-      _pageBinary(e, selectedMainPage){
-        this.selectedMainPage = 1;
-        this._isDisabled(e.target);
+      _getServiceUserParams(userIdentifier, serviceId, accessToken){
+        return{
+          "identifier": userIdentifier,
+          "serviceId": serviceId,
+          "Token": accessToken
+        }
       }
-      _pageLinear(e, selectedMainPage){
-        this.selectedMainPage = 2;
-        this._isDisabled(e.target);
+      _getConsentsBody(clientId, serviceId, userId, accessToken){
+        return {
+          "ClientId": clientId,
+          "ServiceId": serviceId,
+          "UserId":  userId,
+          "Token": accessToken,
+        };
+      }
+      _pageBinary(page){
+        if (page == 'binary' || page == 'Binary' || page == 'BINARY'){
+         return true;
+         } else{
+          return false;
+         }
+      }
+      _pageLinear(page){
+        if (page == 'linear' || page == 'Linear' || page == 'LINEAR'){
+         return true;
+         } else{
+          return false;
+         }
+      }
+      _isTemplate(template){
+        if (template == null || template == undefined || Object.keys(template).length === 0 && template.constructor === Object) {
+          return false;
+        } else{
+          return true;
+        }
+      }
+      _totMainPages(template){
+        return this.template.Templates.length + 1;
+      }
+      _mainAdder(n){
+        return n + 1;
+      } 
+      _prevPage(e, selectedMainPage){
+        if (this.selectedMainPage == 0) {
+          // do nothing
+        } else{
+          this.selectedMainPage--;
+        }
+        // var disabled = this.$.btnPrev.disabled;
+        // console.log("selectedMainPage", this.selectedMainPage);
+        // console.log("selectedMainPage", this.selectedMainPage);
+      }
+      _nextPage(e, selectedMainPage){
+        // var disabled = this.$.btnNext.disabled;
+        var tot = this._totMainPages();
+        if (this.selectedMainPage >= tot) {
+          // do nothing
+        } else{
+          this.selectedMainPage++;
+        }
       }
       _isDisabled(e, selectedMainPage){
         if (!e.disabled) {
@@ -301,14 +369,30 @@
           console.log("how did you click this?");
         }
       }
-      _pageSet1(selectedLinearPage){
-        this.selectedLinearPage = 0;
+      _resErr(fault){
+        if (typeof fault === 'object'){
+          fault = fault.detail.error.message;
+        }
+        console.warn("Error with AJAX: " + fault);
       }
-      _pageSet2(selectedLinearPage){
-        this.selectedLinearPage = 1;
+      _resLogin(event, accessToken){
+        var res = event.detail.response;
+        if (res.Success) {
+          this.accessToken = res.Token;
+          this.$.getTemplateAjax.generateRequest();
+        } else{
+          this._resErr("Failure to login");
+        }
       }
-      _pageSet3(selectedLinearPage){
-        this.selectedLinearPage = 2;
+
+      // get the UserID 
+      _resGetServiceUser(event, userId){
+        if (event.detail.response.UserId) {
+          this.userId = event.detail.response.UserId;
+          this.$.getUserConsentsAjax.generateRequest();
+        } else{
+          console.error("no user id");
+        }
       }
     }
 

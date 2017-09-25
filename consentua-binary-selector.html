@@ -1,0 +1,179 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<dom-module id="consentua-binary-selector">
+  <template>
+    <style>
+      :host {
+        display: block;
+        --paper-toggle-button-checked-bar-color: var(--green-l);
+        --paper-toggle-button-checked-button-color: var(--green-l);
+        --paper-toggle-button-checked-ink-color: var(--green-l);
+      }
+      .main-page{
+      }
+      .main-page > article{
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.35);
+        height: 670px;
+        padding: 1em;
+        margin: 0em 1em;
+        background: #fff;
+        border-radius: 5px;
+      }
+      .all-toggle-container{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .all-toggle-container paper-toggle-button{
+        align-self: flex-end;
+        margin: 1em;
+      }
+      iron-list{
+        height: 500px;
+        overflow-y: auto;
+        border-top: 2px solid #eee;
+      }
+      iron-list .item{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #eee;
+      }
+      iron-list .item article{
+        padding: 1em 0em;
+      }
+      iron-list .item paper-toggle-button{
+        margin: 1em;
+      }
+    </style>
+    <section>
+
+    <iron-ajax
+     id="setConsentAjax"
+     method="POST"
+     content-type="application/json"
+     url="[[apiEndpoint]]/userconsent/SetConsents"
+     handle-as="json"
+     body="{}"
+     on-response="_setConsentRes"></iron-ajax>
+    <!-- <template is="dom-repeat" items="[[purposeGroup]]"> -->
+       <div class="main-page binary-page">
+          <article>
+            <h2>[[purposeGroup.Description]]</h2>
+            <p>[[purposeGroup.Explanation]]</p>
+            <span class="all-toggle-container">
+            <p>Allow all purposes</p>
+            <paper-toggle-button class="tgl-binary-all" checked></paper-toggle-button>
+            </span>
+              <iron-list items="[[purposeGroup.Purposes]]" as="item">
+                <template>
+                  <div class="item">
+                    <article>
+                    <h3>We will use</h3>
+                    [[item.DataUse]]
+                    <h3>For the purposes of</h3>
+                    [[item.DataPurpose]]
+                    </article>
+                    <paper-toggle-button class="tgl-binary" checked="{{_getUserConsent(item)}}" on-change="_setConsent"></paper-toggle-button>
+                  </div>
+                </template>
+              </iron-list>
+          </article>
+       </div>    
+     <!-- </template> -->
+      
+    </section>
+  </template>
+  <script>
+    class ConsentuaBinarySelector extends Polymer.Element {
+      static get is() { return 'consentua-binary-selector'; }
+      static get properties() {
+        return {
+          purposeGroup: {
+            type: Object,
+            notify: true,
+            reflectToAttribute: true,
+            value: {}
+          },
+          userConsents: {
+            type: Object,
+            reflectToAttribute: true,
+            notify: true,
+            value: {}
+          },
+          apiEndpoint:{
+            type: String,
+            notify: true,
+          },
+          accessToken:{
+            type: String,
+            notify: true
+          },
+          clientId:{
+            type: String,
+            notify: true
+          },
+          serviceId:{
+            type: String,
+            notify: true
+          },
+          userId:{
+            type: Number,
+            notify: true
+          }
+        };
+      }
+      ready() {
+        super.ready();
+      }
+      _getUserConsent(item){
+          // console.log("item", item.Id);
+          // console.log(this.userConsents);
+        // if this purpose is the same as matching 1 in userConsents return t else f
+        var arr = this.userConsents.Consent.Purposes;
+        var isConsented = arr.find(function(findConsent){
+          return findConsent.PurposeId === item.Id;
+        });
+        
+        if(isConsented != undefined){
+          // user's consent was found and return it
+          return isConsented.Consent;
+        } else{
+          // user's consent was not found, 
+          return false;
+        }
+        
+      }
+      _setConsent(e){
+        var selectedConsent = e.model.get('item');
+        var newConsent = e.path[0].checked;
+        this.$.setConsentAjax.body = {
+          "Token": this.accessToken,
+          "Consent": {
+            "ClientId": this.clientId,
+            "ServiceId": this.serviceId,
+            "UserId": this.userId,
+            "Purposes": [
+              {
+                "ConsentTemplateId": selectedConsent.ConsentTemplateId,
+                "PurposeId": selectedConsent.Id,
+                "Consent": newConsent
+              }
+            ]
+          }
+        };
+        this.$.setConsentAjax.generateRequest();
+      }
+      _setConsentRes(e) {
+        var res = this.$.setConsentAjax.lastResponse;
+        if(res.Success){
+          console.log("Consent set successfully");
+        } else{
+          console.warn("Consent not set successfully");
+        }
+      }
+    }
+
+    // Associate the new class with an element name
+    customElements.define(ConsentuaBinarySelector.is, ConsentuaBinarySelector);
+  </script>
+</dom-module>

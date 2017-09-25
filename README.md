@@ -1,6 +1,28 @@
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/mrsideshowjack/consentua-component)
+
 # \<consentua-component\>
 
 consentua component
+
+<!--
+```
+<custom-element-demo>
+  <template>
+    <link rel="import" href="consentua-component.html">
+  </template>
+</custom-element-demo>
+```
+-->
+```html
+<consentua-component key="XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXX"
+                     device-id="ACoolAndUniqueDeviceID"
+                     service-id="1"
+                     client-id="2"
+                     user-identifier="demo@test.com">
+                   </consentua-component>
+```
+
+
 
 ## Install the Polymer-CLI
 

@@ -1,0 +1,175 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="consentua-binary-selector.html">
+<link rel="import" href="consentua-linear-selector.html">
+<dom-module id="consentua-template">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .mixed-container{
+        background-color: #fff;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.35);
+        height: 670px;
+        padding: 1em;
+        margin: 0.5em;
+        border-radius: 5px;
+      }
+      .mixed-groups-container{
+        padding: 1.5em;
+        background-color: #ddd;
+        overflow-y: scroll;
+        max-height: 500px;
+      }
+      .mixed-groups-container > div{
+        margin-top: 40px;
+      }
+    </style>
+    <section>
+      
+      <!-- <h1>[[template.Name]]</h1> -->
+
+      <!-- purpose groups -->
+
+      <!-- template is binary -->
+      <template is="dom-if" if="{{isBinary}}">
+        <consentua-binary-selector purpose-group="[[_getFirstPg(template.PurposeGroups)]]" user-consents="[[userConsents]]"
+                                api-endpoint="[[apiEndpoint]]"
+                                access-token="[[accessToken]]"
+                                client-id="[[clientId]]"
+                                service-id="[[serviceId]]"
+                                user-id="[[userId]]"></consentua-binary-selector>
+      </template>
+
+      <!-- template is linear -->
+      <template is="dom-if" if="{{isLinear}}">
+        <consentua-linear-selector purpose-group="[[_getFirstPg(template.PurposeGroups)]]" user-consents="[[userConsents]]"></consentua-linear-selector>
+      </template>
+
+      <!-- template has more than 1 purpose group (mixed/grouped)-->
+      <template is="dom-if" if="{{isMixed}}">
+        <div class="mixed-container">
+        <p>[[template.Question]]</p>
+        <p>[[template.Explanation]]</p>
+        <section class="mixed-groups-container">
+          <template is="dom-repeat" items="[[template.PurposeGroups]]">
+            <template is="dom-if" if="{{_isLinear(item.DisplayType)}}">
+              <div>
+                <consentua-linear-selector purpose-group="[[item]]" user-consents="[[userConsents]]"></consentua-linear-selector>
+              </div>
+            </template>
+            <template is="dom-if" if="{{_isBinary(item.DisplayType)}}">
+              <div>
+                <consentua-binary-selector purpose-group="[[_getFirstPg(template.PurposeGroups)]]" user-consents="[[userConsents]]"
+                                        api-endpoint="[[apiEndpoint]]"
+                                        access-token="[[accessToken]]"
+                                        client-id="[[clientId]]"
+                                        service-id="[[serviceId]]"
+                                        user-id="[[userId]]"></consentua-binary-selector>
+              </div>
+            </template>
+          </template>
+        </section>
+        </div>
+      </template>
+      
+    </section>
+  </template>
+  <script>
+    class ConsentuaTemplate extends Polymer.Element {
+      static get is() { return 'consentua-template'; }
+      static get properties() {
+        return {
+          template: {
+            type: Object,
+            notify: true,
+            reflectToAttribute: true,
+            value: {}
+          },
+          userConsents: {
+            type: Object,
+            notify: true,
+            reflectToAttribute: true,
+            value: {}
+          },
+          isBinary: {
+            type: Boolean,
+            notify: true,
+            value: false
+          },
+          isLinear: {
+            type: Boolean,
+            notify: true,
+            value: false
+          },
+          isMixed: {
+            type: Boolean,
+            notify: true,
+            value: false
+          },
+          apiEndpoint:{
+            type: String,
+            notify: true,
+          },
+          accessToken:{
+            type: String,
+            notify: true
+          },
+          clientId:{
+            type: String,
+            notify: true
+          },
+          serviceId:{
+            type: String,
+            notify: true
+          },
+          userId:{
+            type: Number,
+            notify: true
+          }
+        };
+      }
+    ready() {
+      super.ready();
+      if (this.template.PurposeGroups.length > 1) {
+        // is mixed
+        this.isMixed = true;
+        this.isLinear = false;
+        this.isBinary = false;
+      } else if(this.template.DisplayType == 'linear' || this.template.DisplayType == 'Linear' || this.template.DisplayType == 'LINEAR'){
+        // is linear
+        this.isLinear = true;
+        this.isMixed = false;
+        this.isBinary = false;
+      } else if(this.template.DisplayType == 'binary' || this.template.DisplayType == 'Binary' || this.template.DisplayType == 'BINARY'){
+        // is binary
+        this.isBinary = true;
+        this.isLinear = false;
+        this.isMixed = false;
+      } else {
+        console.error("Cannot determine DisplayType eg linear/binary");
+      }
+    }
+    _getFirstPg(pg){
+        return pg[0];
+    }
+    _isLinear(dt){
+      if (dt == 'linear' || dt == 'Linear' || dt == 'LINEAR') {
+        return true;
+      } else{
+        return false;
+      }
+    }
+    _isBinary(dt){
+      if (dt == 'binary' || dt == 'Binary' || dt == 'BINARY') {
+        return true;
+      } else{
+        return false;
+      }
+    }
+  }
+
+    // Associate the new class with an element name
+    customElements.define(ConsentuaTemplate.is, ConsentuaTemplate);
+  </script>
+</dom-module>
