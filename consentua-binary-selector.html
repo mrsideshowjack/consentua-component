@@ -62,7 +62,8 @@
             <p>[[purposeGroup.Explanation]]</p>
             <span class="all-toggle-container">
             <p>Allow all purposes</p>
-            <paper-toggle-button class="tgl-binary-all" checked></paper-toggle-button>
+            <!--  -->
+            <paper-toggle-button class="tgl-binary-all" checked="{{allCheck}}" on-change="_allCheck"></paper-toggle-button>
             </span>
               <iron-list items="[[purposeGroup.Purposes]]" as="item">
                 <template>
@@ -88,6 +89,11 @@
       static get is() { return 'consentua-binary-selector'; }
       static get properties() {
         return {
+          allCheck:{
+            type: Boolean,
+            value: false,
+            notify: true,
+          },
           purposeGroup: {
             type: Object,
             notify: true,
@@ -169,6 +175,16 @@
           console.log("Consent set successfully");
         } else{
           console.warn("Consent not set successfully");
+        }
+      }
+      _allCheck(e){
+        if (this.allCheck){
+          //set all as checked and send
+          document.getElementsByClassName('tgl-binary').checked= true;
+        } else if (!this.allCheck){
+          // set all checked f
+        } else{
+          console.warn("??????");
         }
       }
     }

@@ -60,11 +60,12 @@
         justify-content: flex-end;
         font-size: 0.9em;
       }
-      #branding img{
+      iron-icon.logo{
+        --iron-icon-height: 55px;
+        --iron-icon-width: 66px;
+        --iron-icon-fill-color: #fff;
         background-color: var(--consentua-main);
-        padding: 7px;
-        max-height: 20px;
-        margin: 0px 5px;
+        margin: 0px 10px;
       }
       .no-template{
         background-color: var(--consentua-main);
@@ -149,7 +150,9 @@
       </div>
       <span id="branding">
         Service provided by
-        <img src="../img/consentua-logo-white.svg">
+        <a href="http://consentua.com">
+        <iron-icon class="logo" icon="consentua-icons:logo"></iron-icon>
+        </a>
       </span>
       </template>
 
