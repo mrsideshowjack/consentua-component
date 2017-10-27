@@ -2,7 +2,9 @@
 
 # \<consentua-component\>
 
-consentua component
+A web component for interfacing with Consentua (get and set user consents), built on Polymer2.
+
+![consentua-component](https://cl.ly/1N262o3R1l0H/Image%202017-10-27%20at%2012.18.38%20PM.png)
 
 <!--
 ```
@@ -21,7 +23,9 @@ consentua component
                      user-identifier="demo@test.com">
                    </consentua-component>
 ```
-
+* *key*, *service-id*, *client-id* - Will be provided to you when you sign up with Consentua
+* *device-id* - recomend using [fingerprintjs2](http://valve.github.io/fingerprintjs2/)
+* *user-identifier* - A user identifier, we recomend an email address
 
 
 ## Install the Polymer-CLI
@@ -41,3 +45,10 @@ $ polymer test
 ```
 
 Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
+
+
+# Contributing
+Everything is welcome! Fork, change and send me a pull request. However, please add a description to your changes, not only code!
+
+# License
+(c) Jack Mason Apache License 2.0
