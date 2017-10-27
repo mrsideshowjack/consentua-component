@@ -133,7 +133,10 @@
           // console.log("item", item.Id);
           // console.log(this.userConsents);
         // if this purpose is the same as matching 1 in userConsents return t else f
+        if (this.userConsents.Consent) {
+          
         var arr = this.userConsents.Consent.Purposes;
+        }
         var isConsented = arr.find(function(findConsent){
           return findConsent.PurposeId === item.Id;
         });

@@ -118,13 +118,13 @@
                       <h3>For the purposes of</h3>
                       <p>[[item.DataPurpose]]</p>
                     <div id="linearBtnContainer">
-                      <dom-if if="[[!_getUserConsent(item)]]">
+                      <dom-if if="[[!_getUserConsent(item, userConsents)]]">
                         <template>
                           <h3>no</h3>
                           <!-- <paper-button class="btn-setting" on-tap="_linearSelect" raised>Use this setting</paper-button> -->
                         </template>
                       </dom-if>
-                      <dom-if if="[[_getUserConsent(item)]]">
+                      <dom-if if="[[_getUserConsent(item, userConsents)]]">
                         <template>
                           <h3>ye</h3>
                           <!-- <paper-button class="btn-setting" raised>Current setting <iron-icon class="linear-btn-icon" icon="consentua-icons:check"></iron-icon></paper-button> -->
@@ -174,11 +174,14 @@
           this.linearCurrentSetting = true;
         }
       }
-      _getUserConsent(item){
+      _getUserConsent(item, userConsents){
           console.log("item", item.Id);
         // if this purpose is the same as matching 1 in userConsents return t else f
+        if (userConsents.Consent != undefined) {
+        console.log(userConsents.Consent.Purposes);
         // var arr = this.userConsents.Consent.Purposes;
-        console.log(this.userConsents);
+
+        }
         // var isConsented = arr.find(function(findConsent){
         //   return findConsent.PurposeId === item.Id;
         // });
