@@ -1,6 +1,8 @@
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/mrsideshowjack/consentua-component)
+<!-- [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/mrsideshowjack/consentua-component) -->
 
 # \<consentua-component\>
+
+>NOTE not production ready, please see issues on github
 
 A web component for interfacing with Consentua (get and set user consents), built on Polymer2.
 
@@ -25,8 +27,8 @@ A web component for interfacing with Consentua (get and set user consents), buil
                                </consentua-component>
 ```
 * *key*, *service-id*, *client-id* - Will be provided to you when you sign up with Consentua
-* *device-id* - recomend using [fingerprintjs2](http://valve.github.io/fingerprintjs2/)
-* *user-identifier* - A user identifier, we recomend an email address
+* *device-id* - recommend using [fingerprintjs2](http://valve.github.io/fingerprintjs2/)
+* *user-identifier* - A user identifier, we recommend an email address
 
 
 ## Install the Polymer-CLI
@@ -39,11 +41,12 @@ First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polyme
 $ bower install
 $ polymer serve
 ```
+>view reusable components: http://localhost:8081/components/consentua-component/demo
 
-## Running Tests
+## Install
 
 ```
-$ polymer test
+$ bower install https://github.com/mrsideshowjack/consentua-component.git
 ```
 
 Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
