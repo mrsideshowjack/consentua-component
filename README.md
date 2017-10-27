@@ -43,13 +43,11 @@ $ polymer serve
 ```
 >view reusable components: http://localhost:8081/components/consentua-component/demo
 
-## Install
+## Install into your app
 
 ```
 $ bower install https://github.com/mrsideshowjack/consentua-component.git
 ```
-
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
 
 
 # Contributing
