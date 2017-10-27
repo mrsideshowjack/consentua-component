@@ -188,54 +188,118 @@
      */
     class ConsentuaComponent extends Polymer.Element {
       static get is() { return 'consentua-component'; }
-      static get properties() {
+     static get properties() {
         return {
+        /**
+          * Consentua provided key
+         */
           key:{
             type: String,
             notify: true
           },
+        /**
+          * formatedToken
+         */
           formatedToken: {
             type: String,
             notify: true,
             computed: '_formatToken(key)'
           },
+        /**
+          * accessToken
+         */
           accessToken:{
             type: String,
             notify: true
           },
+        /**
+          * Consentua provided clientId
+         */
           clientId:{
             type: String,
             notify: true
           },
+        /**
+          * Consentua provided serviceId
+         */
           serviceId:{
             type: String,
             notify: true
           },
+        /**
+          * deviceId
+         */
           deviceId:{
             type: String,
             notify: true
           },
+        /**
+          * language
+         */
           language: {
             type: String,
             notify: true,
             value: 'en'
           },
+        /**
+          * userIdentifier
+         */
           userIdentifier: {
             type: String,
             notify: true
           },
+        /**
+          * userId
+         */
           userId:{
             type: Number,
             notify: true
           },
+        /**
+         * Consentua api endpoint
+         */
           apiEndpoint:{
             type: String,
             notify: true,
-            value: 'http://api.consentua.com'
+            value: 'http://test.consentua.com'
           },
+        /**
+         * If ajax is loading
+         */
           ajaxLoading:{
             type: Boolean,
             notify: true
+          },
+        /**
+         * User's consent template
+         */
+          template: {
+            type: Object,
+            notify: true,
+            value: {}
+          },
+        /**
+         * User's consents object
+         */
+          userConsents: {
+            type: Object,
+            notify: true
+          },
+        /**
+         * If a template exsists
+         */
+          isTemplate: {
+            type: Boolean,
+            notify: true,
+            computed: '_isTemplate(template)'
+          },
+        /**
+         * Currently selected tempalte page
+         */
+          selectedMainPage:{
+            type: Number,
+            notify: true,
+            value: 0
           },
           templateParams: {
             type: Object,
@@ -251,25 +315,6 @@
             type: Object,
             notify: true,
             computed: '_getConsentsBody(clientId, serviceId, userId, accessToken)'
-          },
-          template: {
-            type: Object,
-            notify: true,
-            value: {}
-          },
-          userConsents: {
-            type: Object,
-            notify: true
-          },
-          isTemplate: {
-            type: Boolean,
-            notify: true,
-            computed: '_isTemplate(template)'
-          },
-          selectedMainPage:{
-            type: Number,
-            notify: true,
-            value: 0
           },
         };
       }
