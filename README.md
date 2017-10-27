@@ -17,10 +17,10 @@ A web component for interfacing with Consentua (get and set user consents), buil
 -->
 ```html
 <consentua-component key="XXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXX"
-                     device-id="ACoolAndUniqueDeviceID"
-                     service-id="1"
-                     client-id="2"
-                     user-identifier="demo@test.com">
+                     device-id="xxxxxxxxxxxxxxx"
+                     service-id="X"
+                     client-id="X"
+                     user-identifier="xxx@example.com">
                    </consentua-component>
 ```
 * *key*, *service-id*, *client-id* - Will be provided to you when you sign up with Consentua
