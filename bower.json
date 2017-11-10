@@ -15,7 +15,8 @@
     "iron-icon": "PolymerElements/iron-icon#^2.0.0",
     "iron-iconset": "PolymerElements/iron-iconset#^2.0.0",
     "iron-iconset-svg": "PolymerElements/iron-iconset-svg#^2.0.0",
-    "cryptojslib": "https://github.com/jlcampana/cryptojslib.git"
+    "cryptojslib": "https://github.com/jlcampana/cryptojslib.git",
+    "currycatcryptojs": "*"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
