@@ -114,6 +114,15 @@
          params='[[getServiceUserParams]]'
          handle-as="json"
          on-response="_resGetServiceUser"
+         on-error="_errGetServiceUser"
+         loading="{{ajaxLoading}}"></iron-ajax>
+      <iron-ajax
+         id="addUserToServiceAjax"
+         method="POST"
+         url="[[apiEndpoint]]/user/AddUserToService"
+         params='[[getServiceUserParams]]'
+         handle-as="json"
+         on-response="_resGetServiceUser"
          loading="{{ajaxLoading}}"></iron-ajax>
      <iron-ajax
          id="getUserConsentsAjax"
@@ -396,6 +405,15 @@
           this.$.getUserConsentsAjax.generateRequest();
         } else{
           console.error("no user id");
+        }
+      }
+      _errGetServiceUser(event){
+        const req = event.detail.request; // iron-request
+        if (req.status == 404) {
+          // add user to service
+          this.$.addUserToServiceAjax.generateRequest();
+        } else {
+          console.error('status', req.status, req.statusText);
         }
       }
     }
