@@ -6,6 +6,8 @@
 
 A web component for interfacing with Consentua (get and set user consents), built on Polymer2.
 
+[What is Consentua?](http://consentua.com)
+
 Video of the andriod SDK demo of the same widget [vimeo](https://vimeo.com/235892308)
 
 ![consentua-component](https://cl.ly/1N262o3R1l0H/Image%202017-10-27%20at%2012.18.38%20PM.png)
