@@ -12,6 +12,17 @@ Video of the andriod SDK demo of the same widget [vimeo](https://vimeo.com/23589
 
 ![consentua-component](https://cl.ly/1N262o3R1l0H/Image%202017-10-27%20at%2012.18.38%20PM.png)
 
+## API
+
+The component interfaces with the [Consentua API](http://test.consentua.com/swagger/ui/index), and its main purpose is to get (view) and set consents.
+For development and testing, we have set up a demo user on the test API.
+
+```
+ client-id="2"
+ service-id="1"
+ key="19fb13ab-d6f2-42dc-a41c-42249450b5b6"
+```
+
 ## Usage
 <!--
 ```
